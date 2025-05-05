@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9cf9297e631fb2345a3eb2e0d15b1ec6
+guid: bbf3e88b1c8137f4c9b45bf261ef9aea
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -81,7 +81,7 @@ TextureImporter:
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 12
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -93,7 +93,7 @@ TextureImporter:
     buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 12
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -105,85 +105,85 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Koopa_0
+      name: FireFlower_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 16
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: baf9f731383753b48a87b98c4a90397c
-      internalID: 1771076000
+      spriteID: 2b269276d846d2f48a44c73156aa3e78
+      internalID: -1161188942
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Koopa_1
+      name: FireFlower_1
       rect:
         serializedVersion: 2
         x: 16
         y: 0
         width: 16
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 926a1f883917d9144a5dc6bc5e27c60e
-      internalID: 1658894343
+      spriteID: 0367965bd40dfd24081ab253e3913c47
+      internalID: 46196987
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Koopa_2
+      name: FireFlower_2
       rect:
         serializedVersion: 2
         x: 32
         y: 0
         width: 16
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: affea7d233e251f4d81bb8615be1d321
-      internalID: -359215819
+      spriteID: 1a74967c160e2df46993d3001e311f12
+      internalID: -1842123357
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Koopa_3
+      name: FireFlower_3
       rect:
         serializedVersion: 2
         x: 48
         y: 0
         width: 16
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cdacce4c44644cd49a8a61b1889a204f
-      internalID: -925248667
+      spriteID: 17adaec785db3064da4cb374b71b927a
+      internalID: -1365377049
       vertices: []
       indices: 
       edges: []
@@ -199,10 +199,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Koopa_0: 1771076000
-      Koopa_1: 1658894343
-      Koopa_2: -359215819
-      Koopa_3: -925248667
+      FireFlower_0: -1161188942
+      FireFlower_1: 46196987
+      FireFlower_2: -1842123357
+      FireFlower_3: -1365377049
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

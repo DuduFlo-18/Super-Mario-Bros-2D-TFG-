@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9cf9297e631fb2345a3eb2e0d15b1ec6
+guid: 1e1237223bb017944b1335cfa95e9f05
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -81,7 +81,7 @@ TextureImporter:
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 12
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -93,7 +93,7 @@ TextureImporter:
     buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 12
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -105,85 +105,64 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Koopa_0
+      name: Coin_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 16
-        height: 24
+        width: 10
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: baf9f731383753b48a87b98c4a90397c
-      internalID: 1771076000
+      spriteID: 0366f26a12990cf4c9aca64788eca9f1
+      internalID: 2040721157
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Koopa_1
+      name: Coin_1
       rect:
         serializedVersion: 2
-        x: 16
+        x: 10
         y: 0
-        width: 16
-        height: 24
+        width: 10
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 926a1f883917d9144a5dc6bc5e27c60e
-      internalID: 1658894343
+      spriteID: 186a5b8ba89428942b3634aded55030d
+      internalID: 2132881803
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Koopa_2
+      name: Coin_2
       rect:
         serializedVersion: 2
-        x: 32
+        x: 20
         y: 0
-        width: 16
-        height: 24
+        width: 10
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: affea7d233e251f4d81bb8615be1d321
-      internalID: -359215819
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Koopa_3
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 0
-        width: 16
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cdacce4c44644cd49a8a61b1889a204f
-      internalID: -925248667
+      spriteID: 4204007a64fccfd46a11b3146e9fed4b
+      internalID: 245043898
       vertices: []
       indices: 
       edges: []
@@ -199,10 +178,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Koopa_0: 1771076000
-      Koopa_1: 1658894343
-      Koopa_2: -359215819
-      Koopa_3: -925248667
+      Coin_0: 2040721157
+      Coin_1: 2132881803
+      Coin_2: 245043898
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

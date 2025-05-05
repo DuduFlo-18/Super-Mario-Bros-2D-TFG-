@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Mario : MonoBehaviour
 {
+    //Cada uno representa un estado de Mario
     public enum State {Default = 0, Super = 1, Fire = 2}
     State currentState = State.Default;
     public GameObject stompBox;
@@ -72,5 +73,41 @@ public class Mario : MonoBehaviour
         currentState = (State)newState;
         animaciones.NewState(newState);
         Time.timeScale = 1;
+    }
+
+
+    public void CatchItem(ItemType type)
+    {
+        switch(type)
+        {
+            case ItemType.MagicMushroom:
+            if(currentState == State.Default)
+            {
+                animaciones.PowerUp();
+                Time.timeScale = 0;
+            }
+                break;
+
+            case ItemType.FireFlower:
+                if(currentState != State.Fire)
+                {
+                    animaciones.PowerUp();
+                    Time.timeScale = 0;
+                }
+                break;
+
+            case ItemType.Coin:
+                Debug.Log("Coin");
+                break;
+
+            case ItemType.Life:
+                break;
+
+            case ItemType.Star:
+                break;
+
+            default:
+                break;
+        }
     }
 }

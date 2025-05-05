@@ -14,6 +14,8 @@ public class AutoMovement : MonoBehaviour
     Vector2 currentDirection;
     float defaultSpeed;
 
+    public bool flipSprite = true;
+
     private void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -36,13 +38,17 @@ public class AutoMovement : MonoBehaviour
             speed = -speed;
         }
         rb2d.velocity = new Vector2(speed, rb2d.velocity.y);
-        if(rb2d.velocity.x > 0)
-        {
-            spriteRenderer.flipX = true;
-        }
-        else
-        {
-            spriteRenderer.flipX = false;
+
+        if(flipSprite)
+            {
+                if(rb2d.velocity.x > 0)
+            {
+                spriteRenderer.flipX = true;
+            }
+            else
+            {
+                spriteRenderer.flipX = false;
+            }
         }
         }
     } 
