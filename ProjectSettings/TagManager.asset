@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Pipe
   - Ground
+  - HeadMario
   layers:
   - Default
   - TransparentFX

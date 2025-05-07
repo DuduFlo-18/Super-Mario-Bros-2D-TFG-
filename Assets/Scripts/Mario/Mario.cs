@@ -14,6 +14,8 @@ public class Mario : MonoBehaviour
     Animaciones animaciones;
     Rigidbody2D rb2d;
 
+    public GameObject headbox;
+
     bool isDead;
     private void Awake()
     {
@@ -24,6 +26,7 @@ public class Mario : MonoBehaviour
     }
     private void Update()
     {
+//Se encarga de activar o desactivar la hitbox de pisar si esta cayendo
         if(rb2d.velocity.y < 0 && !isDead)
         {
             stompBox.SetActive(true);
@@ -33,6 +36,16 @@ public class Mario : MonoBehaviour
             stompBox.SetActive(false);
         }
         
+//Se encarga de activar o desactivar la hitbox de salto si Mario esta cayendo
+        if (rb2d.velocity.y > 0 && !isDead)
+        {
+            headbox.SetActive(true);
+        }
+        else
+        {
+            headbox.SetActive(false);
+        }
+
         if(Input.GetKeyDown(KeyCode.P))
         {
             Time.timeScale = 0;

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class AutoMovement : MonoBehaviour
@@ -16,6 +17,7 @@ public class AutoMovement : MonoBehaviour
 
     public bool flipSprite = true;
 
+    float timer = 0;
     private void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -34,22 +36,30 @@ public class AutoMovement : MonoBehaviour
         if (!movementPaused)
         {
             if (rb2d.velocity.x> -0.1f && rb2d.velocity.x < 0.1)
-        {
-            speed = -speed;
-        }
-        rb2d.velocity = new Vector2(speed, rb2d.velocity.y);
-
-        if(flipSprite)
             {
-                if(rb2d.velocity.x > 0)
-            {
-                spriteRenderer.flipX = true;
+                if (timer > 0.05f)
+                {
+                    speed = -speed;
+                }
+            timer += Time.deltaTime;
             }
             else
             {
-                spriteRenderer.flipX = false;
+                timer = 0;
             }
-        }
+            rb2d.velocity = new Vector2(speed, rb2d.velocity.y);
+
+            if(flipSprite)
+            {
+                if(rb2d.velocity.x > 0)
+                {
+                    spriteRenderer.flipX = true;
+                }
+                else
+                {
+                    spriteRenderer.flipX = false;
+                }
+            }
         }
     } 
 

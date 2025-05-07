@@ -26,6 +26,8 @@ public class Move : MonoBehaviour
     Colisiones colisiones;
 
     public bool inputMoveEnabled = true;
+
+    
     Animaciones animaciones;
 
     private void Awake()

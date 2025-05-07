@@ -6,8 +6,9 @@ public class SpritesAnimation : MonoBehaviour
 {
     public Sprite[] sprites;
     public float frameTime = 0.1f;
-    float timer = 0f;
     int animationFrame = 0;
+
+    public bool stop;
     SpriteRenderer spriteRenderer;
 
     void Awake()
@@ -45,11 +46,10 @@ public class SpritesAnimation : MonoBehaviour
 
     IEnumerator Animation()
     {
-        while (true)
+        while (!stop)
         {
             Debug.Log("Animation Phase: "+ animationFrame);
             spriteRenderer.sprite = sprites[animationFrame];
-            
             
             
             animationFrame++;
