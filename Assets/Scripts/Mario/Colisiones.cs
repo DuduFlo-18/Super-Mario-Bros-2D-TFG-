@@ -61,7 +61,15 @@ public class Colisiones : MonoBehaviour
 
         if(collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            mario.Hit();
+            if (mario.isInvincible)
+            {
+                Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+                enemy.HitStarman();
+            }
+            else
+            {
+                mario.Hit();
+            }
         }
 
         // if(collision.gameObject.CompareTag("Pipe"))
@@ -75,6 +83,24 @@ public class Colisiones : MonoBehaviour
     public void Dead() 
     {
         gameObject.layer = LayerMask.NameToLayer("PlayerDead");
+        foreach(Transform transform in transform)
+        {
+            transform.gameObject.layer = LayerMask.NameToLayer("PlayerDead");
+        }
+    }
+
+    public void HurtCollision(bool activate)
+    {
+        if (activate)
+        {
+            gameObject.layer = LayerMask.NameToLayer("OnlyGround");
+            transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("OnlyGround");
+        }
+        else
+        {
+            gameObject.layer = LayerMask.NameToLayer("Player");
+            transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Player");
+        }
     }
 
     // private void OnCollisionStay2D(Collision2D collision)
@@ -105,8 +131,24 @@ public class Colisiones : MonoBehaviour
         Enemy enemy = collision.GetComponent<Enemy>();
         if (enemy != null)
         {
-            enemy.Stomped(transform);
-            mover.BounceUp();
+            if (mario.isInvincible)
+            {
+                enemy.HitStarman();
+            }
+            else
+            {
+                if (collision.CompareTag("Plant"))
+                {
+                    mario.Hit();
+                }
+                else
+                {
+                    enemy.Stomped(transform);
+                    mover.BounceUp();  
+                }
+                
+            }
+
         }
 
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -14,9 +15,19 @@ public class Mario : MonoBehaviour
     Animaciones animaciones;
     Rigidbody2D rb2d;
 
+    public GameObject fireballPrefab;
+    public Transform shootPos;
+
     public GameObject headbox;
 
+    public bool isInvincible;
+    public float invincibleTime;
+    float invincibleTimer;
+
     bool isDead;
+    public bool isHurt;
+    public float hurtTime;
+    float hurtTimer;
     private void Awake()
     {
         mover = GetComponent<Move>();
@@ -26,18 +37,44 @@ public class Mario : MonoBehaviour
     }
     private void Update()
     {
-//Se encarga de activar o desactivar la hitbox de pisar si esta cayendo
-        if(rb2d.velocity.y < 0 && !isDead)
+        if (!isDead)
         {
-            stompBox.SetActive(true);
+        //Se encarga de activar o desactivar la hitbox de pisar si esta cayendo
+            if(rb2d.velocity.y < 0)
+            {
+                stompBox.SetActive(true);
+            }
+            else
+            {
+                stompBox.SetActive(false);
+            } 
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                Shoot();
+            }
+            if (isInvincible)
+            {
+                invincibleTimer -= Time.deltaTime;
+                if (invincibleTimer <= 0)
+                {
+                    isInvincible = false;
+                    animaciones.InvincibleMode(false);
+                }
+            }
+
+            if (isHurt)
+            {
+                hurtTimer -= Time.deltaTime;
+                if (hurtTimer <= 0)
+                {
+                    EndHurt();
+                }
+            }
         }
-        else
-        {
-            stompBox.SetActive(false);
-        }
+
         
 //Se encarga de activar o desactivar la hitbox de salto si Mario esta cayendo
-        if (rb2d.velocity.y > 0 && !isDead)
+        if (rb2d.velocity.y > 0)
         {
             headbox.SetActive(true);
         }
@@ -46,28 +83,49 @@ public class Mario : MonoBehaviour
             headbox.SetActive(false);
         }
 
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            Time.timeScale = 0;
-            animaciones.PowerUp();
-        }
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            Hit();
-        }
+        // if(Input.GetKeyDown(KeyCode.P))
+        // {
+        //     Time.timeScale = 0;
+        //     animaciones.PowerUp();
+        // }
+        // if (Input.GetKeyDown(KeyCode.H))
+        // {
+        //     Hit();
+        // }
     }
 
     public void Hit()
     {
-        if (currentState == State.Default)
+        if (!isHurt)
         {
-            Dead();
+            if (currentState == State.Default)
+            {
+                Dead();
+            }
+            else
+            {
+                Time.timeScale = 0;
+                animaciones.Hit();
+                StartHurt();
+            }
         }
-        else
-        {
-            Time.timeScale = 0;
-           animaciones.Hit();
-        }
+       
+    }
+
+    void StartHurt()
+    {
+        isHurt= true;
+        animaciones.Hurt(true);
+        hurtTimer = hurtTime;
+        colisiones.HurtCollision(true);
+    }
+
+    void EndHurt()
+    {
+        isHurt = false;
+        animaciones.Hurt(false);
+        colisiones.HurtCollision(false);
+        
     }
 
     public void Dead()
@@ -117,10 +175,26 @@ public class Mario : MonoBehaviour
                 break;
 
             case ItemType.Star:
+                isInvincible = true;
+                animaciones.InvincibleMode(true);
+                invincibleTimer = invincibleTime;
                 break;
 
             default:
                 break;
         }
+    }
+    void Shoot()
+    {
+        if (currentState == State.Fire)
+        {
+            GameObject newFireball = Instantiate(fireballPrefab, shootPos.position, Quaternion.identity);
+            newFireball.GetComponent<Fireball>().direction = transform.localScale.x;
+            animaciones.Shoot();
+        }
+    }
+    public bool IsBig()
+    {
+        return currentState != State.Default;
     }
 }

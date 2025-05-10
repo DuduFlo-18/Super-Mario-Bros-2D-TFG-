@@ -1,5 +1,76 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1499210215
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1499210216}
+  - component: {fileID: 1499210218}
+  - component: {fileID: 1499210217}
+  m_Layer: 7
+  m_Name: CollisionDetect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1499210216
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499210215}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 254051678712171249}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1499210218
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499210215}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.007838011, y: -0.47140336}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.38978052, y: 0.21039915}
+  m_EdgeRadius: 0
+--- !u!114 &1499210217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499210215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 366a3765f975bc244993ed142d8ca087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4634845422388321577
 GameObject:
   m_ObjectHideFlags: 0
@@ -31,7 +102,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1499210216}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -146,9 +218,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 336bed027a9b7c04698458067d083ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isBreakable: 0
+  isBreakable: 1
   brickPrefab: {fileID: 5280703620780192, guid: 3b1b579389cf9634da2d3a76ed871fdc, type: 3}
-  numCoins: 0
+  numCoins: 5
   coinBlockPrefab: {fileID: 3615638691464530516, guid: 262aab89ea61cc3459c7121747dd87b9, type: 3}
+  bouncing: 0
   emptyBlock: {fileID: 21300000, guid: 550863ce3eb41d14f987b7379deb487a, type: 3}
-  itemPrefab: {fileID: 3075068916580081476, guid: 063694cf4983a784183738b0d97dd329, type: 3}
+  itemPrefab: {fileID: 0}
+  onBlockLayers:
+    serializedVersion: 2
+    m_Bits: 2304

@@ -54,4 +54,19 @@ public class Animaciones : MonoBehaviour
     {
         animator.SetTrigger("Hit");
     }
+
+    public void Shoot()
+    {
+        animator.SetTrigger("Shoot");
+    }
+
+    public void InvincibleMode(bool activate)
+    {
+        animator.SetBool("Invincible", activate);
+    }
+
+    public void Hurt(bool activate)
+    {
+        animator.SetBool("Hurt", activate);
+    }
 }

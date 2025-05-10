@@ -19,9 +19,49 @@ public class Enemy : MonoBehaviour
     {
 
     }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        //Si chocan enemigos entre ellos, estos cambiaran la direccion
+        if (collision.gameObject.layer == gameObject.layer)
+        {
+            automovement.ChangeDirection();
+        }
+    }
     public virtual void Stomped(Transform player)
     {
 
     }
 
+    public virtual void HitFireBall()
+    {
+        FlipDie();
+    } 
+
+    public virtual void HitStarman()
+    {
+        FlipDie();
+    }
+
+    public virtual void HitBelowBlock()
+    { 
+        FlipDie();
+    }
+
+    public virtual void HitRollingShell()
+    {
+        FlipDie();
+    }
+
+    protected void FlipDie()
+    {
+        animator.SetTrigger("Flip");
+        rb2d.velocity = Vector2.zero;
+        rb2d.AddForce(Vector2.up * 6, ForceMode2D.Impulse);
+        if (automovement != null)
+        {
+            automovement.enabled = false;
+        }
+        GetComponent<Collider2D>().enabled = false;
+    }
 }

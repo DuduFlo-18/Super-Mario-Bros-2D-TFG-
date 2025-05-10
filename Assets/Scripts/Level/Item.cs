@@ -6,9 +6,21 @@ using UnityEngine;
 public enum ItemType { MagicMushroom, FireFlower, Coin, Life, Star }
 public class Item : MonoBehaviour
 {
-
     public ItemType type;
     bool isCatched;
+
+    public Vector2 startVelocity;
+    AutoMovement autoMovement;
+
+    private void Awake()
+    {
+        autoMovement = GetComponent<AutoMovement>();
+    }
+    private void Start()
+    {
+        //Prueba de Movimiento e interaccion de la estrella junto al Bounce
+        //Invoke("StartMove",5f);
+    }
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (!isCatched)
@@ -33,6 +45,37 @@ public class Item : MonoBehaviour
                 mario.CatchItem(type);
                 Destroy(gameObject);
             }
+        }
+    }
+
+    public void WaitMove()
+    {
+        if (autoMovement != null)
+        {
+            autoMovement.enabled = false;
+        }
+    }
+
+    public void StartMove()
+    {
+        if(autoMovement != null)
+        {
+            autoMovement.enabled = true;
+        }
+        else
+        {
+            if(startVelocity != Vector2.zero)
+            {
+                GetComponent<Rigidbody2D>().velocity = startVelocity;
+            }
+        }
+    }
+
+    public void HitBelowBlock()
+    {
+        if (autoMovement != null && autoMovement.enabled)
+        {
+            autoMovement.ChangeDirection();
         }
     }
 }

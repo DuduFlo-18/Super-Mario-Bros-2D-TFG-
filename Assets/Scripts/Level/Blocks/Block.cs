@@ -10,21 +10,99 @@ public class Block : MonoBehaviour
 
     public int numCoins;
     public GameObject coinBlockPrefab;
-    bool bouncing;
+    public bool bouncing;
     public Sprite emptyBlock;
     bool isEmpty;
 
     public GameObject itemPrefab;
-    
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    //List<GameObject> enemiesOnBlock = new List<GameObject>();
+    public LayerMask onBlockLayers;
+    BoxCollider2D boxCollider2D;
+    private void Awake()
     {
-        if (collision.CompareTag("HeadMario"))
+        boxCollider2D = GetComponent<BoxCollider2D>();
+    }
+
+    void OntheBlock()
+    {
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(boxCollider2D.bounds.center + Vector3.up * boxCollider2D.bounds.extents.y, boxCollider2D.bounds.size * 0.5f, 0, onBlockLayers);
+        foreach (Collider2D collider in colliders)
         {
-            //Obtengo el componente de Mario cortar el salto cuando golpea a un bloque
-            collision.transform.parent.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            Enemy enemy = collider.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.HitBelowBlock();
+            }
+            else
+            {
+                Item item = collider.GetComponent<Item>();
+                if (item != null)
+                {
+                    item.HitBelowBlock();
+                }
+            }
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (boxCollider2D != null)
+        {
+            Gizmos.DrawWireCube(boxCollider2D.bounds.center + Vector3.up * boxCollider2D.bounds.extents.y, boxCollider2D.bounds.size * 0.5f);
+        } 
+    }
+
+    // void OnCollisionEnter2D(Collision2D collision)
+    // {
+    //     if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+    //     {
+    //         Vector2 sideContact = collision.contacts[0].normal;
+    //         Vector2  topSide = new Vector2(0f, -1f);
+
+    //         if (sideContact == topSide)
+    //         {
+    //             if (!enemiesOnBlock.Contains(collision.gameObject))
+    //             {
+    //                 enemiesOnBlock.Add(collision.gameObject);
+    //             }
+    //         }
+    //     }
+    // }
+
+    // void OnCollisionExit2D(Collision2D collision)
+    // {
+    //     if (!bouncing)
+    //     {
+    //         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+    //         {
+    //         if (enemiesOnBlock.Contains(collision.gameObject))
+    //             {
+    //                 enemiesOnBlock.Remove(collision.gameObject);
+    //             }
+    //         }
+    //     }
+    // }
+
+    //private void OnTriggerEnter2D(Collider2D collision)
+    public void HeadCollision(bool marioBig)
+    {
+        // if (collision.CompareTag("HeadMario"))
+        // {
+        //     //Obtengo el componente de Mario cortar el salto cuando golpea a un bloque
+        //     collision.transform.parent.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             if (isBreakable)
             {
-                Break();
+                if (marioBig)
+                {
+                    //Si el bloque es rompible y Mario es grande, se rompe
+                    Break();
+                }
+                else
+                {
+                    //Si el bloque es rompible y Mario es pequeño, no se rompe
+                    Bounce();
+                }
             }
             else if (!isEmpty)
             {
@@ -51,11 +129,22 @@ public class Block : MonoBehaviour
                     }
                 }
             }
+            if (!isEmpty)
+            {
+                OntheBlock();
+            }
+        //     if (!isEmpty)
+        //     {
+        //         foreach(GameObject enemyOnBlock in enemiesOnBlock)
+        //         {
+        //             enemyOnBlock.GetComponent<Enemy>().HitBelowBlock();
+        //         }
+        //     }
+           // }
             
             // Debug.Log("Q golpe illo");
             // Bounce();
             //Break();
-        }
     }
 
     void Bounce()
@@ -128,12 +217,15 @@ public class Block : MonoBehaviour
         {
             GameObject newItem = Instantiate(itemPrefab, transform.position, Quaternion.identity);
 
-            AutoMovement autoMovement = newItem.GetComponent<AutoMovement>();
-        //Si tiene movimiento automatico se le detiene ese movimiento
-            if (autoMovement != null)
-            {
-                autoMovement.enabled = false;
-            }
+        //     AutoMovement autoMovement = newItem.GetComponent<AutoMovement>();
+        // //Si tiene movimiento automatico se le detiene ese movimiento
+        //     if (autoMovement != null)
+        //     {
+        //         autoMovement.enabled = false;
+        //     }
+
+            Item item = newItem.GetComponent<Item>();
+            item.WaitMove();
             float time = 0;
             float duration = 1f;
             Vector2 startPosition = newItem.transform.position;
@@ -146,9 +238,10 @@ public class Block : MonoBehaviour
                 yield return null;
             }
             newItem.transform.position = targetPosition;
-            if (autoMovement != null)
-            {
-                autoMovement.enabled = true;
-            }
+            // if (autoMovement != null)
+            // {
+            //     autoMovement.enabled = true;
+            // }
+            item.StartMove();
         }
 }

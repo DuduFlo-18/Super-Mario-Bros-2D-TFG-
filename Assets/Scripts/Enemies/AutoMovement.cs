@@ -92,4 +92,10 @@ public class AutoMovement : MonoBehaviour
             movementPaused = false;
         }
     }
+
+    public void ChangeDirection()
+    {
+        speed = -speed;
+        rb2d.velocity = new Vector2(speed, rb2d.velocity.y);
+    }
 }
