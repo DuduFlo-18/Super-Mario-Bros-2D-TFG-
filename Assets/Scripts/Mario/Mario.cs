@@ -18,16 +18,19 @@ public class Mario : MonoBehaviour
     public GameObject fireballPrefab;
     public Transform shootPos;
 
-    public GameObject headbox;
-
     public bool isInvincible;
     public float invincibleTime;
     float invincibleTimer;
 
-    bool isDead;
     public bool isHurt;
     public float hurtTime;
     float hurtTimer;
+    public bool isCrouched;
+    //public GameObject headbox;
+
+    public bool levelFinished;
+    bool isDead;
+  
     private void Awake()
     {
         mover = GetComponent<Move>();
@@ -37,6 +40,7 @@ public class Mario : MonoBehaviour
     }
     private void Update()
     {
+        isCrouched = false;
         if (!isDead)
         {
         //Se encarga de activar o desactivar la hitbox de pisar si esta cayendo
@@ -47,7 +51,16 @@ public class Mario : MonoBehaviour
             else
             {
                 stompBox.SetActive(false);
-            } 
+            }
+
+            if (Input.GetKey(KeyCode.DownArrow))
+            {
+                if (colisiones.isGrounded)
+                {
+                    isCrouched = true;
+                }
+            }
+
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 Shoot();
@@ -72,16 +85,18 @@ public class Mario : MonoBehaviour
             }
         }
 
+        animaciones.Crouch(isCrouched);
+
         
 //Se encarga de activar o desactivar la hitbox de salto si Mario esta cayendo
-        if (rb2d.velocity.y > 0)
-        {
-            headbox.SetActive(true);
-        }
-        else
-        {
-            headbox.SetActive(false);
-        }
+        // if (rb2d.velocity.y > 0)
+        // {
+        //     headbox.SetActive(true);
+        // }
+        // else
+        // {
+        //     headbox.SetActive(false);
+        // }
 
         // if(Input.GetKeyDown(KeyCode.P))
         // {
@@ -186,7 +201,7 @@ public class Mario : MonoBehaviour
     }
     void Shoot()
     {
-        if (currentState == State.Fire)
+        if (currentState == State.Fire && !isCrouched)
         {
             GameObject newFireball = Instantiate(fireballPrefab, shootPos.position, Quaternion.identity);
             newFireball.GetComponent<Fireball>().direction = transform.localScale.x;
@@ -196,5 +211,11 @@ public class Mario : MonoBehaviour
     public bool IsBig()
     {
         return currentState != State.Default;
+    }
+
+    public void Goal()
+    {
+        mover.DownFlagPole();
+        levelFinished = true;
     }
 }
