@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class Enemy : MonoBehaviour
 {
+    public int points;
     protected Animator animator;
     protected AutoMovement automovement;
     protected Rigidbody2D rb2d;
+
+    public GameObject floatPointsPrefab;
 
     protected virtual void Awake()
     {
@@ -55,6 +59,7 @@ public class Enemy : MonoBehaviour
 
     protected void FlipDie()
     {
+        AudioManager.instance.PlayFlipDie();
         animator.SetTrigger("Flip");
         rb2d.velocity = Vector2.zero;
         rb2d.AddForce(Vector2.up * 6, ForceMode2D.Impulse);
@@ -63,5 +68,14 @@ public class Enemy : MonoBehaviour
             automovement.enabled = false;
         }
         GetComponent<Collider2D>().enabled = false;
+        Dead();
+    }
+
+    protected void Dead()
+    {
+        ScoreManager.instance.AddScore(points);
+        GameObject newFloatPoint = Instantiate(floatPointsPrefab, transform.position, Quaternion.identity);
+        Points floatPoints = newFloatPoint.GetComponent<Points>();
+        floatPoints.numPoints = points;
     }
 }

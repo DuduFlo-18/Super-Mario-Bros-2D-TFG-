@@ -28,8 +28,10 @@ public class Mario : MonoBehaviour
     public bool isCrouched;
     //public GameObject headbox;
 
-    public bool levelFinished;
+    //public bool levelFinished;
     bool isDead;
+
+    //public HUD hud;
   
     private void Awake()
     {
@@ -119,6 +121,7 @@ public class Mario : MonoBehaviour
             }
             else
             {
+                AudioManager.instance.PlayPowerDown();
                 Time.timeScale = 0;
                 animaciones.Hit();
                 StartHurt();
@@ -147,6 +150,7 @@ public class Mario : MonoBehaviour
     {
         if (!isDead)
         {
+            AudioManager.instance.PlayDie();
             isDead = true;
             colisiones.Dead();
             mover.Dead();
@@ -167,6 +171,7 @@ public class Mario : MonoBehaviour
         switch(type)
         {
             case ItemType.MagicMushroom:
+                AudioManager.instance.PlayPowerUp();
             if(currentState == State.Default)
             {
                 animaciones.PowerUp();
@@ -175,6 +180,7 @@ public class Mario : MonoBehaviour
                 break;
 
             case ItemType.FireFlower:
+                AudioManager.instance.PlayPowerUp();
                 if(currentState != State.Fire)
                 {
                     animaciones.PowerUp();
@@ -183,13 +189,16 @@ public class Mario : MonoBehaviour
                 break;
 
             case ItemType.Coin:
-                Debug.Log("Coin");
+                AudioManager.instance.PlayCoin();
+                //Debug.Log("Coin");
+                LevelManager.instance.AddCoins();
                 break;
 
             case ItemType.Life:
                 break;
 
             case ItemType.Star:
+                AudioManager.instance.PlayPowerUp();
                 isInvincible = true;
                 animaciones.InvincibleMode(true);
                 invincibleTimer = invincibleTime;
@@ -203,6 +212,7 @@ public class Mario : MonoBehaviour
     {
         if (currentState == State.Fire && !isCrouched)
         {
+            AudioManager.instance.PlayShoot();
             GameObject newFireball = Instantiate(fireballPrefab, shootPos.position, Quaternion.identity);
             newFireball.GetComponent<Fireball>().direction = transform.localScale.x;
             animaciones.Shoot();
@@ -215,7 +225,9 @@ public class Mario : MonoBehaviour
 
     public void Goal()
     {
+        AudioManager.instance.PlayFlagPole();
         mover.DownFlagPole();
-        levelFinished = true;
+        //levelFinished = true;
+        LevelManager.instance.FinishLevel();
     }
 }

@@ -57,7 +57,7 @@ public class Move : MonoBehaviour
         bool grounded = colisiones.Grounded();
         animaciones.Grounded(grounded);
 
-        if (mario.levelFinished)
+        if (LevelManager.instance.levelFinished)
         {
             if (grounded && isClimbingFlagPole)
             {
@@ -127,7 +127,7 @@ public class Move : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (mario.levelFinished)
+        if (LevelManager.instance.levelFinished)
         {
             if (isClimbingFlagPole)
             {
@@ -198,6 +198,15 @@ public class Move : MonoBehaviour
     }
     void Jump() 
     {
+        //Logica de Sonido
+        if (mario.IsBig())
+        {
+            AudioManager.instance.PlayBigJump();
+        }
+        else
+        {
+            AudioManager.instance.PlayJump();
+        }
         if(!isJumping)
         {
         isJumping = true;

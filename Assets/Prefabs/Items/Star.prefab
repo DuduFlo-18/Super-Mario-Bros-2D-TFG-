@@ -139,8 +139,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aff63e1e2ab5a8e4f8f93dddd69ad0d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  points: 1000
   type: 4
   startVelocity: {x: 5, y: 5}
+  floatPointsPrefab: {fileID: 5958145082522023427, guid: 4d9a6dfc1c681944681b6ff99e4db81a, type: 3}
 --- !u!58 &5146948702082542155
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -104,6 +104,8 @@ MonoBehaviour:
   - {fileID: -1295411609, guid: 212945c346d31014bbbff20a9722c31f, type: 3}
   - {fileID: -1501897035, guid: 212945c346d31014bbbff20a9722c31f, type: 3}
   frameTime: 0.1
+  stop: 0
+  loop: 1
 --- !u!114 &3615638691464530512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,3 +118,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee518a99dd739d74e86386aa5714f9b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pointsPrefab: {fileID: 5958145082522023427, guid: 4d9a6dfc1c681944681b6ff99e4db81a, type: 3}

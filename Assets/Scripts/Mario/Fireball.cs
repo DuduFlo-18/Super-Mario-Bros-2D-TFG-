@@ -68,6 +68,7 @@ public class Fireball : MonoBehaviour
 
     void Explode(Vector2 point)
     {
+        AudioManager.instance.PlayBump();
         Instantiate(explosionPrefab, point, Quaternion.identity);
         Destroy(gameObject);
     }

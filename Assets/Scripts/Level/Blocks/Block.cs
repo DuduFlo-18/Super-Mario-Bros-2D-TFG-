@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class Block : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class Block : MonoBehaviour
     bool isEmpty;
 
     public GameObject itemPrefab;
+
+    //public GameObject pointsPrefab;
 
     //List<GameObject> enemiesOnBlock = new List<GameObject>();
     public LayerMask onBlockLayers;
@@ -95,13 +98,15 @@ public class Block : MonoBehaviour
             {
                 if (marioBig)
                 {
+                    Debug.Log("Bloque golpeado");
                     //Si el bloque es rompible y Mario es grande, se rompe
                     Break();
                 }
                 else
                 {
+                    Debug.Log("Bloque Chocado");
                     //Si el bloque es rompible y Mario es pequeño, no se rompe
-                    Bounce();
+                Bounce();
                 }
             }
             else if (!isEmpty)
@@ -157,6 +162,7 @@ public class Block : MonoBehaviour
 
     IEnumerator BounceAnimation()
         {
+            AudioManager.instance.PlayBump();
             bouncing  = true;
             float time = 0;
             float duration = 0.1f;
@@ -193,6 +199,8 @@ public class Block : MonoBehaviour
         
         void Break()
         {
+            AudioManager.instance.PlayBreak();
+            ScoreManager.instance.AddScore(50);
             GameObject brickPiece;
             //Arriba-Derecha
             brickPiece = Instantiate(brickPrefab, transform.position, Quaternion.Euler(new Vector3(0,0,0)));
@@ -215,6 +223,7 @@ public class Block : MonoBehaviour
 
         IEnumerator ShowItem()
         {
+            AudioManager.instance.PlayPowerAppear();
             GameObject newItem = Instantiate(itemPrefab, transform.position, Quaternion.identity);
 
         //     AutoMovement autoMovement = newItem.GetComponent<AutoMovement>();

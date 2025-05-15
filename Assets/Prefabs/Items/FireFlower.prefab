@@ -115,7 +115,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aff63e1e2ab5a8e4f8f93dddd69ad0d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  points: 1000
   type: 1
+  startVelocity: {x: 0, y: 0}
+  floatPointsPrefab: {fileID: 5958145082522023427, guid: 4d9a6dfc1c681944681b6ff99e4db81a, type: 3}
 --- !u!114 &994263117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,3 +137,5 @@ MonoBehaviour:
   - {fileID: -1842123357, guid: bbf3e88b1c8137f4c9b45bf261ef9aea, type: 3}
   - {fileID: -1365377049, guid: bbf3e88b1c8137f4c9b45bf261ef9aea, type: 3}
   frameTime: 0.1
+  stop: 0
+  loop: 1

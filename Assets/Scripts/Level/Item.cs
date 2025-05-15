@@ -1,16 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 //La creo fuera de la clase para poder acceder desde cualquier archivo
 public enum ItemType { MagicMushroom, FireFlower, Coin, Life, Star }
 public class Item : MonoBehaviour
 {
+    public int points;
     public ItemType type;
     bool isCatched;
-
+    
     public Vector2 startVelocity;
     AutoMovement autoMovement;
+
+    public GameObject floatPointsPrefab;
 
     private void Awake()
     {
@@ -28,7 +32,8 @@ public class Item : MonoBehaviour
             if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
                 collision.gameObject.GetComponent<Mario>().CatchItem(type);
-                Destroy(gameObject);
+                //Destroy(gameObject);
+                CatchItem();
             }
         }
     }
@@ -43,7 +48,8 @@ public class Item : MonoBehaviour
             {
                 isCatched = true;
                 mario.CatchItem(type);
-                Destroy(gameObject);
+                //Destroy(gameObject);
+                CatchItem();
             }
         }
     }
@@ -77,5 +83,15 @@ public class Item : MonoBehaviour
         {
             autoMovement.ChangeDirection();
         }
+    }
+
+    void CatchItem()
+    {
+        ScoreManager.instance.AddScore(this.points);
+        GameObject floatPoints = Instantiate(floatPointsPrefab, transform.position, Quaternion.identity);
+        Points points = floatPoints.GetComponent<Points>();
+        points.numPoints = this.points;
+
+        Destroy(gameObject);
     }
 }

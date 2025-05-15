@@ -160,6 +160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: -1
+  flipSprite: 1
 --- !u!114 &3742085425968605814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,5 +173,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09ea7ecd46678b74da288480e4df9ca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  points: 200
+  floatPointsPrefab: {fileID: 5958145082522023427, guid: 4d9a6dfc1c681944681b6ff99e4db81a, type: 3}
   maxStoppedTime: 2
   rollingSpeed: 5
+  isRolling: 0
