@@ -13,6 +13,7 @@ public class ScoreManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -25,6 +26,11 @@ public class ScoreManager : MonoBehaviour
         score = 0;
     }
 
+    public void NewGame()
+    {
+        score = 0;
+    }
+    
     public void AddScore(int amount)
     {
         score += amount;

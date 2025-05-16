@@ -18,7 +18,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip clipDie;
     public AudioClip clipPowerDown;
     public AudioClip clipPowerUpAppear;
-    
+    public AudioClip clip1UP;
+
 
     AudioSource audioSource;
     public AudioClip clipFlagPoleDown;
@@ -29,6 +30,11 @@ public class AudioManager : MonoBehaviour
         {
             instance = this;
             audioSource = GetComponent<AudioSource>();
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 
@@ -47,7 +53,7 @@ public class AudioManager : MonoBehaviour
         audioSource.PlayOneShot(clipCoin);
     }
 
-     public void PlayStomp()
+    public void PlayStomp()
     {
         audioSource.PlayOneShot(clipStomp);
     }
@@ -56,7 +62,7 @@ public class AudioManager : MonoBehaviour
     {
         audioSource.PlayOneShot(clipFlipDie);
     }
-    
+
     public void PlayShoot()
     {
         audioSource.PlayOneShot(clipShoot);
@@ -82,7 +88,7 @@ public class AudioManager : MonoBehaviour
         audioSource.PlayOneShot(clipBreak);
     }
 
-     public void PlayBump()
+    public void PlayBump()
     {
         audioSource.PlayOneShot(clipBump);
     }
@@ -95,5 +101,10 @@ public class AudioManager : MonoBehaviour
     public void PlayFlagPole()
     {
         audioSource.PlayOneShot(clipFlagPoleDown);
+    }
+    
+    public void Play1UP()
+    {
+        audioSource.PlayOneShot(clip1UP);
     }
 }

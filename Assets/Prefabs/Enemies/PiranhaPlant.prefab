@@ -68,9 +68,10 @@ GameObject:
   - component: {fileID: 3177475372589862038}
   - component: {fileID: 3177475372589862025}
   - component: {fileID: 2017127292}
+  - component: {fileID: 1147521420}
   m_Layer: 8
   m_Name: Plant
-  m_TagString: Untagged
+  m_TagString: Plant
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -223,6 +224,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points: 200
+  floatPointsPrefab: {fileID: 5958145082522023427, guid: 4d9a6dfc1c681944681b6ff99e4db81a, type: 3}
+--- !u!114 &1147521420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3177475372589862024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a19a8093cc011745bb3288d534ebe1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minDistance: 0
+  parentObject: {fileID: 3177475372324362158}
+  onlyBack: 1
 --- !u!1 &3177475373483922577
 GameObject:
   m_ObjectHideFlags: 0

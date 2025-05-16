@@ -15,13 +15,14 @@ GameObject:
   - component: {fileID: 1746879079466861124}
   - component: {fileID: 1746879079466861126}
   - component: {fileID: 1746879079466861127}
+  - component: {fileID: 388320470}
   m_Layer: 8
   m_Name: Goomba
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1746879079466861123
 Transform:
   m_ObjectHideFlags: 0
@@ -175,3 +176,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   points: 100
   floatPointsPrefab: {fileID: 5958145082522023427, guid: 4d9a6dfc1c681944681b6ff99e4db81a, type: 3}
+--- !u!114 &388320470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1746879079466861120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a19a8093cc011745bb3288d534ebe1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minDistance: 20
+  onlyBack: 1

@@ -13,7 +13,7 @@ public class Colisiones : MonoBehaviour
     BoxCollider2D col2D;
     Mario mario;
     Move mover;
-
+    public LayerMask sideCollisions;
 
     private void Awake()
     {
@@ -56,10 +56,16 @@ public class Colisiones : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheck.position,groundCheckRadius,groundLayer);
     }
 
+    public bool CheckCollision(int direction)
+    {
+        //Devuelve si esta colisionando con el suelo
+        return Physics2D.OverlapBox(col2D.bounds.center + Vector3.right * direction * col2D.bounds.extents.x, col2D.bounds.size * 0.5f, 0, sideCollisions);
+        
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             if (mario.isInvincible)
             {
@@ -86,6 +92,14 @@ public class Colisiones : MonoBehaviour
         foreach(Transform transform in transform)
         {
             transform.gameObject.layer = LayerMask.NameToLayer("PlayerDead");
+        }
+    }
+    public void Respawn()
+    {
+        gameObject.layer = LayerMask.NameToLayer("Player");
+        foreach(Transform transform in transform)
+        {
+            transform.gameObject.layer = LayerMask.NameToLayer("Player");
         }
     }
 

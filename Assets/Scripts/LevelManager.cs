@@ -5,13 +5,19 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class LevelManager : MonoBehaviour
 {
-    public HUD hud;
-    int coins;
+    // public HUD hud;
+    // int coins;
     public static LevelManager instance;
     public int time;
     public float timer;
 
     Mario mario;
+    public Transform spawnPoint;
+    public Transform checkPoint;
+
+   
+
+    public CameraMove cameraMove;
 
     public bool levelFinished;
     void Awake()
@@ -24,13 +30,16 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        coins = 0;
-        hud.UpdateCoins(coins);
+        // coins = 0;
+        // hud.UpdateCoins(coins);
 
         timer = time;
-        hud.UpdateTime(timer);
-        
+        GameManager.instance.hud.UpdateTime(timer);
+        //hud.UpdateTime(timer);
+
         mario = FindObjectOfType<Mario>();
+        cameraMove = Camera.main.GetComponent<CameraMove>();
+        GameManager.instance.LevelLoaded();
     }
 
     // Update is called once per frame
@@ -41,18 +50,20 @@ public class LevelManager : MonoBehaviour
             timer -= Time.deltaTime;
             if (timer <= 0)
             {
-                mario.Dead();
+                // mario.Dead();
+                GameManager.instance.RunOutOfTime();
                 timer = 0;
             }
-            hud.UpdateTime(timer);
+            //hud.UpdateTime(timer);
+            GameManager.instance.hud.UpdateTime(timer);
         }
     }
 
-    public void AddCoins()
-    {
-        coins++;
-        hud.UpdateCoins(coins);
-    }
+    // public void AddCoins()
+    // {
+    //     coins++;
+    //     hud.UpdateCoins(coins);
+    // }
 
     public void FinishLevel()
     {
@@ -69,7 +80,8 @@ public class LevelManager : MonoBehaviour
         while (timeLeft > 0)
         {
             timeLeft--;
-            hud.UpdateTime(timeLeft);
+            //hud.UpdateTime(timeLeft);
+            GameManager.instance.hud.UpdateTime(timer);
             ScoreManager.instance.AddScore(50);
             AudioManager.instance.PlayCoin();
             yield return new WaitForSeconds(0.05f);

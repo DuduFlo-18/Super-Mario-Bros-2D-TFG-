@@ -39,12 +39,14 @@ public class Move : MonoBehaviour
     bool isAutoWalking;
     public float autoWalkSpeed = 5;
     Mario mario;
+    
+
     private void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
         colisiones = GetComponent<Colisiones>();
         animaciones = GetComponent<Animaciones>();
-        mario = GetComponent<Mario>(); 
+        mario = GetComponent<Mario>();
     }
 
     void Start()
@@ -145,17 +147,24 @@ public class Move : MonoBehaviour
                 isSkidding = false;
         //Comprueba velocidad actual en el eje X
             currentVelocity = rb2d.velocity.x;
-            if(currentDirection > 0) 
+            
+            if (colisiones.CheckCollision((int)currentDirection))
+            {
+                currentVelocity = 0;
+            }
+            else
+            {
+                 if (currentDirection > 0)
             {
                 if (currentVelocity < 0)
                 {
                     currentVelocity += (acceleration + friction) * Time.deltaTime;
                     isSkidding = true;
                 }
-                else if(currentVelocity < maxVelocity)
+                else if (currentVelocity < maxVelocity)
                 {
-                    currentVelocity += acceleration*Time.deltaTime;
-                    transform.localScale = new Vector2(1,1);
+                    currentVelocity += acceleration * Time.deltaTime;
+                    transform.localScale = new Vector2(1, 1);
                 }
             }
             else if (currentDirection < 0)
@@ -165,27 +174,29 @@ public class Move : MonoBehaviour
                     currentVelocity -= (acceleration + friction) * Time.deltaTime;
                     isSkidding = true;
                 }
-                else if(currentVelocity >  -maxVelocity)
+                else if (currentVelocity > -maxVelocity)
                 {
-                    currentVelocity -= (acceleration*Time.deltaTime);
-                    transform.localScale = new Vector2(-1,1);
+                    currentVelocity -= (acceleration * Time.deltaTime);
+                    transform.localScale = new Vector2(-1, 1);
                 }
             }
-            else 
+            else
             {
-                if(currentVelocity > 1f)
+                if (currentVelocity > 1f)
                 {
-                    currentVelocity-= friction * Time.deltaTime;
+                    currentVelocity -= friction * Time.deltaTime;
                 }
-                else if(currentVelocity < -1f) 
+                else if (currentVelocity < -1f)
                 {
                     currentVelocity += friction * Time.deltaTime;
                 }
-                else 
+                else
                 {
                     currentVelocity = 0;
                 }
             }
+            }
+           
             if (mario.isCrouched)
             {
                 currentVelocity = 0;
@@ -230,12 +241,20 @@ public class Move : MonoBehaviour
         rb2d.AddForce(Vector2.up*5f, ForceMode2D.Impulse);
     }
 
+    public void Respawn()
+    {
+        inputMoveEnabled = true;
+        rb2d.velocity = Vector2.zero;
+        rb2d.gravityScale = defaultGravity;
+        transform.localScale = new Vector2(1, 1);
+    }
+
     public void BounceUp()
     {
         //Se para el movimiento para que no se multiplique el impulso con el salto
         rb2d.velocity = Vector2.zero;
         //Vector2 forceUp = new Vector2(0, 10f);
-        rb2d.AddForce(Vector2.up*10f, ForceMode2D.Impulse);
+        rb2d.AddForce(Vector2.up * 10f, ForceMode2D.Impulse);
 
     }
 

@@ -30,15 +30,27 @@ public class Mario : MonoBehaviour
 
     //public bool levelFinished;
     bool isDead;
+    
+    public static Mario instance;
 
     //public HUD hud;
-  
+
     private void Awake()
     {
-        mover = GetComponent<Move>();
-        colisiones = GetComponent<Colisiones>();
-        animaciones = GetComponent<Animaciones>();
-        rb2d = GetComponent<Rigidbody2D>();
+        if (instance == null)
+        {
+            instance = this;
+            mover = GetComponent<Move>();
+            colisiones = GetComponent<Colisiones>();
+            animaciones = GetComponent<Animaciones>();
+            rb2d = GetComponent<Rigidbody2D>();
+
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        } 
     }
     private void Update()
     {
@@ -155,46 +167,61 @@ public class Mario : MonoBehaviour
             colisiones.Dead();
             mover.Dead();
             animaciones.Dead();
+            GameManager.instance.LoseLife();
         }
     }
 
-    void ChangeState(int newState)
+    public void Respawn(Vector2 pos)
     {
-        currentState = (State)newState;
-        animaciones.NewState(newState);
-        Time.timeScale = 1;
+        isDead = false;
+        colisiones.Respawn();
+        mover.Respawn();
+        animaciones.Reset();
+        transform.position = pos;
     }
+
+    // void ChangeState(int newState)
+    // {
+    //     currentState = (State)newState;
+    //     animaciones.NewState(newState);
+    //     Time.timeScale = 1;
+    // }
 
 
     public void CatchItem(ItemType type)
     {
-        switch(type)
+        switch (type)
         {
             case ItemType.MagicMushroom:
                 AudioManager.instance.PlayPowerUp();
-            if(currentState == State.Default)
-            {
-                animaciones.PowerUp();
-                Time.timeScale = 0;
-            }
+                if (currentState == State.Default)
+                {
+                    animaciones.PowerUp();
+                    Time.timeScale = 0;
+                    rb2d.velocity = Vector2.zero;
+                }
                 break;
 
             case ItemType.FireFlower:
                 AudioManager.instance.PlayPowerUp();
-                if(currentState != State.Fire)
+                if (currentState != State.Fire)
                 {
                     animaciones.PowerUp();
                     Time.timeScale = 0;
+                    rb2d.velocity = Vector2.zero;
                 }
                 break;
 
             case ItemType.Coin:
                 AudioManager.instance.PlayCoin();
                 //Debug.Log("Coin");
-                LevelManager.instance.AddCoins();
+                //LevelManager.instance.AddCoins();
+                GameManager.instance.AddCoin();
                 break;
 
             case ItemType.Life:
+                GameManager.instance.NewLife();
+                AudioManager.instance.Play1UP();
                 break;
 
             case ItemType.Star:

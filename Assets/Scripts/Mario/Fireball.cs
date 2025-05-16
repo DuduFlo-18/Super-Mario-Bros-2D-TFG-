@@ -10,10 +10,12 @@ public class Fireball : MonoBehaviour
 
     public GameObject explosionPrefab;
     Rigidbody2D rb2d;
+
+    bool colision;
     private void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        
+
     }
 
     // Start is called before the first frame update
@@ -32,6 +34,7 @@ public class Fireball : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        colision = true;
         Enemy enemy = collision.gameObject.GetComponent<Enemy>();
         if (enemy != null)
         {
@@ -45,7 +48,7 @@ public class Fireball : MonoBehaviour
             Vector2 sidepoint = collision.GetContact(0).normal;
             //Debug.Log("SidePoint: " + sidepoint);
 
-            if (sidepoint.x !=0) //Colision lateral = Destruir
+            if (Mathf.Abs( sidepoint.x) >0.01f) //Colision lateral = Destruir
             {
                 //Destroy(gameObject);
                 Explode(collision.GetContact(0).point);
@@ -66,6 +69,17 @@ public class Fireball : MonoBehaviour
         }
     }
 
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (colision)
+        {
+            colision = false;
+        }
+        else
+        {
+            Explode(collision.GetContact(0).point);
+        }
+    }
     void Explode(Vector2 point)
     {
         AudioManager.instance.PlayBump();

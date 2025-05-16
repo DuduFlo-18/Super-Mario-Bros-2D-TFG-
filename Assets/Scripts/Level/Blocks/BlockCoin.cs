@@ -9,6 +9,7 @@ public class BlockCoin : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameManager.instance.AddCoin();
         AudioManager.instance.PlayCoin();
         ScoreManager.instance.AddScore(200);
 
