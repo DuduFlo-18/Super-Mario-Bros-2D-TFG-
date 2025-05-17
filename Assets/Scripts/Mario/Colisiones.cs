@@ -17,9 +17,9 @@ public class Colisiones : MonoBehaviour
 
     private void Awake()
     {
-     col2D = GetComponent<BoxCollider2D>();   
-     mario = GetComponent<Mario>();
-     mover = GetComponent<Move>();
+        col2D = GetComponent<BoxCollider2D>();
+        mario = GetComponent<Mario>();
+        mover = GetComponent<Move>();
     }
 
 
@@ -30,7 +30,7 @@ public class Colisiones : MonoBehaviour
         Vector2 pieizq = new Vector2(col2D.bounds.center.x - col2D.bounds.extents.x, col2D.bounds.center.y);
         Vector2 pieder = new Vector2(col2D.bounds.center.x + col2D.bounds.extents.x, col2D.bounds.center.y);
 
-//Muestra visual de los bordes para saber si esta en contacto con el suelo.
+        //Muestra visual de los bordes para saber si esta en contacto con el suelo.
         Debug.DrawRay(pieizq, Vector2.down * col2D.bounds.extents.y * 1.5f, Color.magenta);
         Debug.DrawRay(pieder, Vector2.down * col2D.bounds.extents.y * 1.5f, Color.magenta);
 
@@ -48,19 +48,19 @@ public class Colisiones : MonoBehaviour
         }
 
         return isGrounded;
-}
-        
+    }
+
     private void FixedUpdate()
     {
         //Devuelve si esta colisionando con el suelo
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position,groundCheckRadius,groundLayer);
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
     }
 
     public bool CheckCollision(int direction)
     {
         //Devuelve si esta colisionando con el suelo
         return Physics2D.OverlapBox(col2D.bounds.center + Vector3.right * direction * col2D.bounds.extents.x, col2D.bounds.size * 0.5f, 0, sideCollisions);
-        
+
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -86,10 +86,10 @@ public class Colisiones : MonoBehaviour
         // }
     }
 
-    public void Dead() 
+    public void Dead()
     {
         gameObject.layer = LayerMask.NameToLayer("PlayerDead");
-        foreach(Transform transform in transform)
+        foreach (Transform transform in transform)
         {
             transform.gameObject.layer = LayerMask.NameToLayer("PlayerDead");
         }
@@ -97,7 +97,7 @@ public class Colisiones : MonoBehaviour
     public void Respawn()
     {
         gameObject.layer = LayerMask.NameToLayer("Player");
-        foreach(Transform transform in transform)
+        foreach (Transform transform in transform)
         {
             transform.gameObject.layer = LayerMask.NameToLayer("Player");
         }
@@ -133,7 +133,7 @@ public class Colisiones : MonoBehaviour
     //     }
     // } 
 
-     private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         // PlayerHit playerHit = collision.GetComponent<PlayerHit>();
         // if (playerHit != null)
@@ -158,31 +158,32 @@ public class Colisiones : MonoBehaviour
                 else
                 {
                     enemy.Stomped(transform);
-                    mover.BounceUp();  
+                    mover.BounceUp();
                 }
-                
+
             }
 
         }
 
-
-    //     if (collision.gameObject.CompareTag("Ground")) 
-    //      {
-    //          Debug.Log("Empezamos a tocar el suelo");
-    //      }
     }
 
-    // private void OnTriggerStay2D(Collider2D collision)
-    // {
-    // }
-
-    // private void OnTriggerExit2D(Collider2D collision)
-    // {
-    //     if (collision.gameObject.CompareTag("Ground")) 
-    //      {
-    //          Debug.Log("Dejamos de tocar el suelo");
-    //      }
-    // }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Platform") && isGrounded)
+        {
+            transform.parent = collision.transform;
+        }
+    }
+    
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Platform"))
+        {
+            transform.parent = null;
+            //Importante para que no se elimine entre niveles
+            DontDestroyOnLoad(gameObject);
+        }
+    }
 
 
 }

@@ -20,6 +20,9 @@ public class LevelManager : MonoBehaviour
     public CameraMove cameraMove;
 
     public bool levelFinished;
+    public bool levelPaused;
+
+    public bool countPoints;
     void Awake()
     {
         if (instance == null)
@@ -45,7 +48,7 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!levelFinished)
+        if (!levelFinished && !levelPaused)
         {
             timer -= Time.deltaTime;
             if (timer <= 0)
@@ -81,10 +84,11 @@ public class LevelManager : MonoBehaviour
         {
             timeLeft--;
             //hud.UpdateTime(timeLeft);
-            GameManager.instance.hud.UpdateTime(timer);
+            GameManager.instance.hud.UpdateTime(timeLeft);
             ScoreManager.instance.AddScore(50);
             AudioManager.instance.PlayCoin();
             yield return new WaitForSeconds(0.05f);
         }
+        countPoints = true;
     }
 }

@@ -14,6 +14,8 @@ public class HUD : MonoBehaviour
 
     public TextMeshProUGUI time;
 
+    public TextMeshProUGUI worldLevel;
+
     // Start is called before the first frame update
     // void Start()
     // {
@@ -42,5 +44,10 @@ public class HUD : MonoBehaviour
     {
         int timeLeftInt = Mathf.RoundToInt(timeLeft);
         time.text = timeLeftInt.ToString("D3");
+    }
+
+    public void UpdateWorld(int world, int level)
+    {
+        worldLevel.text = world + "-" + level;
     }
 }

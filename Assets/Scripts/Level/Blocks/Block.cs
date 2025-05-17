@@ -16,6 +16,7 @@ public class Block : MonoBehaviour
     bool isEmpty;
 
     public GameObject itemPrefab;
+    public GameObject itemFlowerPrefab;
 
     //public GameObject pointsPrefab;
 
@@ -98,13 +99,13 @@ public class Block : MonoBehaviour
             {
                 if (marioBig)
                 {
-                    Debug.Log("Bloque golpeado");
+ //                   Debug.Log("Bloque golpeado");
                     //Si el bloque es rompible y Mario es grande, se rompe
                     Break();
                 }
                 else
                 {
-                    Debug.Log("Bloque Chocado");
+//                    Debug.Log("Bloque Chocado");
                     //Si el bloque es rompible y Mario es pequeño, no se rompe
                 Bounce();
                 }
@@ -126,11 +127,11 @@ public class Block : MonoBehaviour
                 }
                 else if (itemPrefab != null)
                 {
-                    if (!bouncing)
-                    {
-                        StartCoroutine(ShowItem());
-                        Bounce();
-                        isEmpty = true;
+                if (!bouncing)
+                {
+                    StartCoroutine(ShowItem());
+                    isEmpty = true;
+                    Bounce();
                     }
                 }
             }
@@ -224,7 +225,16 @@ public class Block : MonoBehaviour
         IEnumerator ShowItem()
         {
             AudioManager.instance.PlayPowerAppear();
-            GameObject newItem = Instantiate(itemPrefab, transform.position, Quaternion.identity);
+
+            GameObject newItem;
+            if (itemFlowerPrefab != null && Mario.instance.IsBig())
+            {
+                newItem = Instantiate(itemFlowerPrefab, transform.position, Quaternion.identity);
+            }
+            else
+            {
+                newItem = Instantiate(itemPrefab, transform.position, Quaternion.identity);
+            }
 
         //     AutoMovement autoMovement = newItem.GetComponent<AutoMovement>();
         // //Si tiene movimiento automatico se le detiene ese movimiento

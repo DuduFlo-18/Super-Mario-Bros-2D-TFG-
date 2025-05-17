@@ -98,6 +98,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointsData:
+  - numPoints: 1
+    sprite: {fileID: 21300000, guid: 7d1c93fffa7916345a515757f73d7788, type: 3}
   - numPoints: 100
     sprite: {fileID: 21300000, guid: d957c4fe396ade941a5f11b9b5dd5f03, type: 3}
   - numPoints: 200
@@ -112,8 +114,6 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: adde1854ae0621d4fb7a2db942116f53, type: 3}
   - numPoints: 5000
     sprite: {fileID: 21300000, guid: 1537ee3674f7cab44b1cff2dbe517de0, type: 3}
-  - numPoints: 0
-    sprite: {fileID: 21300000, guid: 7d1c93fffa7916345a515757f73d7788, type: 3}
   numPoints: 2000
   distance: 2
   speed: 2

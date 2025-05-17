@@ -88,10 +88,12 @@ public class Item : MonoBehaviour
     void CatchItem()
     {
         ScoreManager.instance.AddScore(this.points);
-        GameObject floatPoints = Instantiate(floatPointsPrefab, transform.position, Quaternion.identity);
-        Points points = floatPoints.GetComponent<Points>();
-        points.numPoints = this.points;
-
+        if (floatPointsPrefab != null)
+        {
+            GameObject floatPoints = Instantiate(floatPointsPrefab, transform.position, Quaternion.identity);
+            Points points = floatPoints.GetComponent<Points>();
+            points.numPoints = this.points;
+        }
         Destroy(gameObject);
     }
 }

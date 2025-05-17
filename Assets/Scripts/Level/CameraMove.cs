@@ -20,8 +20,7 @@ public class CameraMove : MonoBehaviour
     public Transform colLeftLimit;
     public Transform colRightLimit;
 
-
-
+    public bool canMove;
 
     // Start is called before the first frame update
     void Start()
@@ -38,7 +37,7 @@ public class CameraMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (target != null)
+        if (target != null && canMove)
         {
             float newPosX = target.position.x + follow;
             //Limitar la camara para que no se salga de los limites
@@ -54,5 +53,6 @@ public class CameraMove : MonoBehaviour
         newPosX = Mathf.Clamp(newPosX, minPosX, maxPosX);
         transform.position = new Vector3(newPosX, transform.position.y, transform.position.z);
         lastPos = newPosX;
+        canMove = true;
     }
 }

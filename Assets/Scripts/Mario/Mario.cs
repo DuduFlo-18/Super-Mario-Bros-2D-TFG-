@@ -10,7 +10,7 @@ public class Mario : MonoBehaviour
     public enum State {Default = 0, Super = 1, Fire = 2}
     State currentState = State.Default;
     public GameObject stompBox;
-    Move mover;
+    public Move mover;
     Colisiones colisiones;
     Animaciones animaciones;
     Rigidbody2D rb2d;
@@ -64,7 +64,10 @@ public class Mario : MonoBehaviour
             }
             else
             {
-                stompBox.SetActive(false);
+                if (transform.parent == null)
+                {
+                    stompBox.SetActive(false);
+                }
             }
 
             if (Input.GetKey(KeyCode.DownArrow))
@@ -112,15 +115,15 @@ public class Mario : MonoBehaviour
         //     headbox.SetActive(false);
         // }
 
-        // if(Input.GetKeyDown(KeyCode.P))
-        // {
-        //     Time.timeScale = 0;
-        //     animaciones.PowerUp();
-        // }
-        // if (Input.GetKeyDown(KeyCode.H))
-        // {
-        //     Hit();
-        // }
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            Time.timeScale = 0;
+            animaciones.PowerUp();
+        }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            Hit();
+        }
     }
 
     public void Hit()
@@ -173,19 +176,23 @@ public class Mario : MonoBehaviour
 
     public void Respawn(Vector2 pos)
     {
+        if (isDead)
+        {
+            animaciones.Reset();
+            currentState = State.Default;
+        }
         isDead = false;
         colisiones.Respawn();
         mover.Respawn();
-        animaciones.Reset();
         transform.position = pos;
     }
 
-    // void ChangeState(int newState)
-    // {
-    //     currentState = (State)newState;
-    //     animaciones.NewState(newState);
-    //     Time.timeScale = 1;
-    // }
+    void ChangeState(int newState)
+    {
+        currentState = (State)newState;
+        animaciones.NewState(newState);
+        Time.timeScale = 1;
+    }
 
 
     public void CatchItem(ItemType type)

@@ -220,7 +220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isBreakable: 1
   brickPrefab: {fileID: 5280703620780192, guid: 3b1b579389cf9634da2d3a76ed871fdc, type: 3}
-  numCoins: 5
+  numCoins: 0
   coinBlockPrefab: {fileID: 3615638691464530516, guid: 262aab89ea61cc3459c7121747dd87b9, type: 3}
   bouncing: 0
   emptyBlock: {fileID: 21300000, guid: 550863ce3eb41d14f987b7379deb487a, type: 3}

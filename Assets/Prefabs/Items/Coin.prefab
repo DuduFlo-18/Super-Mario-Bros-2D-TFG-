@@ -119,7 +119,7 @@ MonoBehaviour:
   points: 200
   type: 2
   startVelocity: {x: 0, y: 0}
-  floatPointsPrefab: {fileID: 5958145082522023427, guid: 4d9a6dfc1c681944681b6ff99e4db81a, type: 3}
+  floatPointsPrefab: {fileID: 0}
 --- !u!114 &429934753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,3 +153,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a19a8093cc011745bb3288d534ebe1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minDistance: 0
+  parentObject: {fileID: 0}
+  onlyBack: 0
