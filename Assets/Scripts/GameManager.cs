@@ -34,10 +34,32 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        lives = 3;
-        coins = 97;
-        hud.UpdateCoins(coins);
+        // lives = 3;
+        // coins = 97;
+        //hud.UpdateCoins(coins);
+        HideTimer();
+        isGameOver = true;
+
+        //Esta linea permitira guardar en que mundo y nivel estamos actualmente (Predeterminado 1)
+        currentWorld = PlayerPrefs.GetInt("World", 1);
+        currentLevel = PlayerPrefs.GetInt("Level", 1);
+        
+        Debug.Log("Progreso cargado: World = " + currentWorld + ", Level = " + currentLevel);
     }
+
+    // void Update()
+    // {
+    //     if (Input.GetKeyDown(KeyCode.N))
+    //     {
+    //         StartGame();
+    //     }
+    //     if (Input.GetKeyDown(KeyCode.C))
+    //     {
+    //         ContinueGame();
+    //     }
+    // }
+
+    
 
     public void AddCoin()
     {
@@ -98,21 +120,54 @@ public class GameManager : MonoBehaviour
         checkpoint = false;
     }
 
-    void GameOver()
+    public void StartGame()
     {
-        //isGameOver = true;
-        Debug.Log("Game Over");
-        isGameOver = true;
         currentLevel = 1;
         currentWorld = 1;
+        LoadLevel();
+    }
+
+    public void ContinueGame()
+    {
+        LoadLevel();
+    }
+
+
+//Al perder se deben de comprobar los puntos para saber si ha habido record
+    void GameOver()
+    {
+        Debug.Log("Game Over");
+        ScoreManager.instance.GameOver();
+        isGameOver = true;
+        //currentLevel = 1;
+        //currentWorld = 1;
+
+        PlayerPrefs.SetInt("World", currentWorld);
+        PlayerPrefs.SetInt("Level", currentLevel);
         StartCoroutine(Respawn());
     }
+
+
     IEnumerator Respawn()
     {
         yield return new WaitForSeconds(3f);
         isRespawning = false;
         //SceneManager.LoadScene(0);
-        LoadTransition();
+        //LoadTransition();
+        SceneManager.LoadScene("Transition");
+
+
+//Comprueba si se ha muerto o respawnea. Y carga el menu inicial o el respawn ingame.
+        if (isGameOver)
+        {
+            yield return new WaitForSeconds(5f);
+            SceneManager.LoadScene("StartMenu");
+        }
+        else
+        {
+            yield return new WaitForSeconds(5f);
+            LoadLevel();
+        }
     }
 
     public void LevelLoaded()
@@ -155,21 +210,6 @@ public class GameManager : MonoBehaviour
 
     void LoadLevel()
     {
-        // foreach (World w in worlds)
-        // {
-        //     if (w.id == currentWorld)
-        //     {
-        //         foreach (Level l in w.levels)
-        //         {
-        //             if (l.id == currentLevel)
-        //             {
-        //                 SceneManager.LoadScene(l.sceneName);
-        //                 return;
-        //             }
-        //         }
-        //     }
-        // }
-
         int worldIndex = currentWorld - 1;
         int levelIndex = currentLevel - 1;
 
@@ -201,6 +241,13 @@ public class GameManager : MonoBehaviour
         currentWorld = worldIndex + 1;
         checkpoint = false;
         hud.UpdateWorld(currentWorld, currentLevel);
+
+        PlayerPrefs.SetInt("World", currentWorld);
+        PlayerPrefs.SetInt("Level", currentLevel);
+        PlayerPrefs.Save();
+
+        Debug.Log("Progreso guardado: World = " + currentWorld + ", Level = " + currentLevel);
+
         LoadTransition();
     }
 

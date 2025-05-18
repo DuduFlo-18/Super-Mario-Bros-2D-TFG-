@@ -6,10 +6,10 @@ public class CheckPoint : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Algo entró: " + collision.gameObject.name); // Esto debe imprimirse
+//        Debug.Log("Algo entró: " + collision.gameObject.name); // Esto debe imprimirse
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            Debug.Log("Jugador tocó el checkpoint");
+            //Debug.Log("Jugador tocó el checkpoint");
             GameManager.instance.checkpoint = true;
         }
         // if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))

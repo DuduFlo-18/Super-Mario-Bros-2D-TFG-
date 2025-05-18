@@ -98,14 +98,18 @@ public class Koopa : Enemy
         animator.SetBool("Hidden", isHidden);
         stoppedTimer = 0;
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected override void OnCollisionEnter2D(Collision2D collision)
     {
         if (isRolling)
         {
             if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                Debug.Log("Koopa Hit");
+//                Debug.Log("Koopa Hit");
                 collision.gameObject.GetComponent<Enemy>().HitRollingShell();
+            }
+            else if (!isHidden)
+            {
+                base.OnCollisionEnter2D(collision);
             }
         }
     }

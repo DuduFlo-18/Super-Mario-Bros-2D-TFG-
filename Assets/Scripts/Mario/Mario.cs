@@ -165,7 +165,7 @@ public class Mario : MonoBehaviour
     {
         if (!isDead)
         {
-            AudioManager.instance.PlayDie();
+            AudioManager.instance.PlayDie();            
             isDead = true;
             colisiones.Dead();
             mover.Dead();

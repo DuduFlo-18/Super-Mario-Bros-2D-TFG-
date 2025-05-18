@@ -40,7 +40,7 @@ public class Move : MonoBehaviour
     bool isAutoWalking;
     public float autoWalkSpeed = 5;
     Mario mario;
-    SpriteRenderer spriterenderer ;
+    SpriteRenderer spriterenderer;
 
     public bool moveConnectionComplete = true;
 
@@ -63,8 +63,21 @@ public class Move : MonoBehaviour
 
     void Update()
     {
+
+        if (GameManager.instance.isGameOver)
+        {
+            animaciones.Grounded(true);
+            return;
+        }
         bool grounded = colisiones.Grounded();
         animaciones.Grounded(grounded);
+
+
+        //Comprobamos si el jugador esta en el suelo (confundia la animacion de salto con la de caida)
+        if (grounded)
+        {
+            animaciones.Jumping(isJumping);
+        }
 
         if (LevelManager.instance.levelFinished)
         {
@@ -98,12 +111,15 @@ public class Move : MonoBehaviour
                 else
                 {
                     rb2d.gravityScale = defaultGravity;
-                    if (grounded)
-                    {
-                        isJumping = false;
-                        jumpTimer = 0;
-                        animaciones.Jumping(false);
-                    }
+                    isJumping = false;
+                    jumpTimer = 0;
+                    //Prueba de Salto fallida, mala colision con el Tilemap
+                    // if (grounded)
+                    // {
+                    //     isJumping = false;
+                    //     jumpTimer = 0;
+                    //     animaciones.Jumping(false);
+                    // }
                 }
             }
 
@@ -136,24 +152,26 @@ public class Move : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (LevelManager.instance.levelFinished)
+        if (GameManager.instance.isGameOver)
         {
-            if (isClimbingFlagPole)
-            {
-                rb2d.MovePosition(rb2d.position + Vector2.down * climbPoleSpeed * Time.fixedDeltaTime);
-            }
-            else if (isAutoWalking)
-            {
-                Vector2 velocity = new Vector2(currentVelocity, rb2d.velocity.y);
-                rb2d.velocity = velocity;
-                animaciones.Velocity(Math.Abs(currentVelocity));
-            }
+            return;
         }
-        else
+        // if (LevelManager.instance.levelFinished)
+        // {
+        if (isClimbingFlagPole)
         {
-            if (!rb2d.isKinematic)
-            {
-                isSkidding = false;
+            rb2d.MovePosition(rb2d.position + Vector2.down * climbPoleSpeed * Time.fixedDeltaTime);
+        }
+        else if (isAutoWalking)
+        {
+            Vector2 velocity = new Vector2(currentVelocity, rb2d.velocity.y);
+            rb2d.velocity = velocity;
+            animaciones.Velocity(Math.Abs(currentVelocity));
+        }
+        //}
+        else if (!rb2d.isKinematic && !LevelManager.instance.levelFinished)
+        {
+            isSkidding = false;
             //Comprueba velocidad actual en el eje X
             currentVelocity = rb2d.velocity.x;
 
@@ -204,15 +222,14 @@ public class Move : MonoBehaviour
                         currentVelocity = 0;
                     }
                 }
-            }
-            if (mario.isCrouched)
-            {
-                currentVelocity = 0;
-            }
-            Vector2 velocity = new Vector2(currentVelocity, rb2d.velocity.y);
-            rb2d.velocity = velocity;
-            animaciones.Velocity(currentVelocity);
-            animaciones.Skid(isSkidding);
+                if (mario.isCrouched)
+                {
+                    currentVelocity = 0;
+                }
+                Vector2 velocity = new Vector2(currentVelocity, rb2d.velocity.y);
+                rb2d.velocity = velocity;
+                animaciones.Velocity(currentVelocity);
+                animaciones.Skid(isSkidding);
             }
         }
     }
@@ -252,6 +269,7 @@ public class Move : MonoBehaviour
 
     public void Respawn()
     {
+        isAutoWalking = false;
         inputMoveEnabled = true;
         rb2d.velocity = Vector2.zero;
         rb2d.gravityScale = defaultGravity;
@@ -269,18 +287,22 @@ public class Move : MonoBehaviour
 
     public void DownFlagPole()
     {
-        inputMoveEnabled = false;
-        rb2d.isKinematic = true;
-        rb2d.velocity = new Vector2(0, -0f);
-        isClimbingFlagPole = true;
-        isJumping = false;
-        animaciones.Jumping(false);
-        animaciones.Climb(true);
-        transform.position = new Vector2(transform.position.x + 0.1f, transform.position.y);
+        if (!isClimbingFlagPole)
+        {
+            inputMoveEnabled = false;
+            rb2d.isKinematic = true;
+            rb2d.velocity = new Vector2(0, -0f);
+            isClimbingFlagPole = true;
+            isJumping = false;
+            animaciones.Jumping(false);
+            animaciones.Climb(true);
+            transform.position = new Vector2(transform.position.x + 0.1f, transform.position.y);
+        }
     }
 
     IEnumerator JumpOffFlagPole()
     {
+        isAutoWalking = false;
         isClimbingFlagPole = false;
         rb2d.velocity = Vector2.zero;
         animaciones.Pause();
@@ -301,10 +323,20 @@ public class Move : MonoBehaviour
         GetComponent<SpriteRenderer>().flipX = false;
         isAutoWalking = true;
         currentVelocity = autoWalkSpeed;
+        //AutoWalk();
+    }
+
+    public void AutoWalk()
+    {
+        isAutoWalking = true;
+        rb2d.isKinematic = false;
+        inputMoveEnabled = false;
+        currentVelocity = autoWalkSpeed;
     }
 
     public void AutomoveConnection(ConnectDirection direction)
     {
+        isAutoWalking = false;
         moveConnectionComplete = false;
         inputMoveEnabled = false;
         rb2d.isKinematic = true;
@@ -321,7 +353,7 @@ public class Move : MonoBehaviour
                 //moveConnectionComplete = true;
                 StartCoroutine(AutoMoveConnectionRight());
                 break;
-        //No hacemos uso del Left asi que lo dejamos como un caso vacio
+            //No hacemos uso del Left asi que lo dejamos como un caso vacio
             case ConnectDirection.Left:
                 moveConnectionComplete = true;
                 break;
@@ -360,10 +392,10 @@ public class Move : MonoBehaviour
         }
         moveConnectionComplete = true;
     }
-    
+
     IEnumerator AutoMoveConnectionRight()
     {
-        float targetRight = transform.position.x + spriterenderer.bounds.size.x*2;
+        float targetRight = transform.position.x + spriterenderer.bounds.size.x * 2;
         //Conseguir ese sprite moviendose al meterse en la tuberia
         animaciones.Velocity(1);
         while (transform.position.x < targetRight)
@@ -374,5 +406,14 @@ public class Move : MonoBehaviour
         //Quitamos la velocidad para que no se quede el sprite moviendose
         animaciones.Velocity(0);
         moveConnectionComplete = true;
+    }
+
+    public void StopMove()
+    {
+        inputMoveEnabled = false;
+        rb2d.isKinematic = true;
+        rb2d.velocity = Vector2.zero;
+        isAutoWalking = false;
+        animaciones.Velocity(0);
     }
 }

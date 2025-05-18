@@ -59,12 +59,12 @@ public class Colisiones : MonoBehaviour
     public bool CheckCollision(int direction)
     {
         //Devuelve si esta colisionando con el suelo
-        return Physics2D.OverlapBox(col2D.bounds.center + Vector3.right * direction * col2D.bounds.extents.x, col2D.bounds.size * 0.5f, 0, sideCollisions);
+        return Physics2D.OverlapBox(col2D.bounds.center + Vector3.right * direction * col2D.bounds.extents.x, col2D.bounds.size * 0.25f, 0, sideCollisions);
 
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
+        //Interaccion con enemigos
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             if (mario.isInvincible)
@@ -78,12 +78,27 @@ public class Colisiones : MonoBehaviour
             }
         }
 
-        // if(collision.gameObject.CompareTag("Pipe"))
-        // Debug.Log("Colision Enter: " + collision.gameObject.name);
-        // else if (collision.gameObject.CompareTag("Ground")) 
-        // {
-        //     Debug.Log("Empezamos a tocar el suelo");
-        // }
+        //Interaccion con la Lava
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Lava"))
+        {
+            //Si es invencible no le afecta (Estrella)
+            if (!mario.isInvincible)
+            {
+                mario.Hit();
+            }
+        }
+        
+
+        //Interaccion con la barras de fuego (Nivel de Bowser)
+        if (collision.gameObject.layer == LayerMask.NameToLayer("DamagePlayer"))
+        {
+            //Si es invencible no le afecta (Estrella)
+            if (!mario.isInvincible)
+            {
+                mario.Hit();
+            }
+        }
+
     }
 
     public void Dead()

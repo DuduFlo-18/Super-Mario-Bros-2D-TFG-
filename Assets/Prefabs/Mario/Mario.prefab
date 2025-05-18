@@ -45,8 +45,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0006148762, y: 0.044871066}
-  m_Size: {x: 0.66059667, y: 0.08975334}
+  m_Offset: {x: -0.0044, y: 0.043}
+  m_Size: {x: 0.685, y: 0.087}
   m_Direction: 1
 --- !u!1 &890427466557535938
 GameObject:
@@ -137,7 +137,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 890427467230845199}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -9.94, y: 0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -273,6 +273,7 @@ MonoBehaviour:
   climbPoleSpeed: 5
   isFlagdown: 0
   autoWalkSpeed: 5
+  moveConnectionComplete: 1
 --- !u!114 &890427467230845237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,6 +341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stompBox: {fileID: 890427466557535938}
+  mover: {fileID: 0}
   fireballPrefab: {fileID: 1117309977728858257, guid: 2189b9a41268ead4697b36fcdb00f8a7, type: 3}
   shootPos: {fileID: 890427467947535989}
   isInvincible: 0

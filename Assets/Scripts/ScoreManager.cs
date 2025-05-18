@@ -5,6 +5,7 @@ using UnityEngine;
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager instance;
+    public int maxScore;
 
     public int score = 0;
 
@@ -23,12 +24,34 @@ public class ScoreManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        score = 0;
+        // score = 0;
+        // if (PlayerPrefs.HasKey("Puntos"))
+        // {
+        //     maxPuntos = PlayerPrefs.GetInt("Puntos");
+        // }
+        // else
+        // {
+        //     maxPuntos = 0;
+        //     PlayerPrefs.SetInt("Puntos", maxPuntos);
+        // }
+
+        maxScore = PlayerPrefs.GetInt("Puntos", 0);
+
     }
 
     public void NewGame()
     {
         score = 0;
+    }
+
+//Guardo de manera local y persistente si se ha roto el Record de Puntos
+    public void GameOver()
+    {
+        if (score > maxScore)
+        {
+            maxScore = score;
+            PlayerPrefs.SetInt("Puntos", maxScore);
+        }
     }
     
     public void AddScore(int amount)

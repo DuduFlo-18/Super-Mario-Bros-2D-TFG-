@@ -7689,6 +7689,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 890427466186237922, guid: 05e00404d0ac1764fa3fc9b6d6c5d634, type: 3}
+      propertyPath: m_Size.x
+      value: 0.685
+      objectReference: {fileID: 0}
+    - target: {fileID: 890427466186237922, guid: 05e00404d0ac1764fa3fc9b6d6c5d634, type: 3}
+      propertyPath: m_Size.y
+      value: 0.08902491
+      objectReference: {fileID: 0}
+    - target: {fileID: 890427466186237922, guid: 05e00404d0ac1764fa3fc9b6d6c5d634, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.0044
+      objectReference: {fileID: 0}
+    - target: {fileID: 890427466186237922, guid: 05e00404d0ac1764fa3fc9b6d6c5d634, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.043
+      objectReference: {fileID: 0}
     - target: {fileID: 890427467230845199, guid: 05e00404d0ac1764fa3fc9b6d6c5d634, type: 3}
       propertyPath: m_Name
       value: Mario

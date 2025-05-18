@@ -55,4 +55,10 @@ public class CameraMove : MonoBehaviour
         lastPos = newPosX;
         canMove = true;
     }
+
+    public void UpdateRightLimit(float newLimit)
+    {
+        maxPosX = newLimit - camWidth;
+        colRightLimit.position = new Vector2(maxPosX + 0.5f, colRightLimit.position.y);
+    }
 }

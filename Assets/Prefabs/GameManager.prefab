@@ -1200,7 +1200,9 @@ MonoBehaviour:
     - id: 1
       sceneName: World 1-1
     - id: 2
-      sceneName: World 1-1 Duplicado
+      sceneName: World 1-2
+  currentWorld: 0
+  currentLevel: 0
   hud: {fileID: 7374942596930930023}
   mario: {fileID: 0}
   lives: 0
