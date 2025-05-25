@@ -323,6 +323,8 @@ public class Move : MonoBehaviour
         GetComponent<SpriteRenderer>().flipX = false;
         isAutoWalking = true;
         currentVelocity = autoWalkSpeed;
+        AudioManager.instance.PlayLevelCompleted();
+
         //AutoWalk();
     }
 

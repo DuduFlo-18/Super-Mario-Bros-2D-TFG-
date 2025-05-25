@@ -157,9 +157,10 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Transition");
 
 
-//Comprueba si se ha muerto o respawnea. Y carga el menu inicial o el respawn ingame.
+        //Comprueba si se ha muerto o respawnea. Y carga el menu inicial o el respawn ingame.
         if (isGameOver)
         {
+            AudioManager.instance.PlayGameover();
             yield return new WaitForSeconds(5f);
             SceneManager.LoadScene("StartMenu");
         }

@@ -85,6 +85,10 @@ public class Mario : MonoBehaviour
             if (isInvincible)
             {
                 invincibleTimer -= Time.deltaTime;
+                if (invincibleTimer < 2f)
+                {
+                    AudioManager.instance.StopMusicStar(true);
+                }
                 if (invincibleTimer <= 0)
                 {
                     isInvincible = false;
@@ -236,6 +240,8 @@ public class Mario : MonoBehaviour
                 isInvincible = true;
                 animaciones.InvincibleMode(true);
                 invincibleTimer = invincibleTime;
+                EndHurt();
+                AudioManager.instance.MusicStar();
                 break;
 
             default:
@@ -259,6 +265,8 @@ public class Mario : MonoBehaviour
 
     public void Goal()
     {
+        AudioManager.instance.StopMusicStar(false);
+        invincibleTimer = 0;
         AudioManager.instance.PlayFlagPole();
         mover.DownFlagPole();
         //levelFinished = true;

@@ -2,6 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum LevelMusic
+{
+    Overworld,
+    UnderGround,
+    Castle,
+    IntoTunnel
+}
+
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
@@ -19,17 +27,36 @@ public class AudioManager : MonoBehaviour
     public AudioClip clipPowerDown;
     public AudioClip clipPowerUpAppear;
     public AudioClip clip1UP;
-
-
-    AudioSource audioSource;
     public AudioClip clipFlagPoleDown;
+    public AudioClip clipBowserFall;
+
+
+    public AudioSource sfx;
+    public AudioSource music;
+
+
+    public AudioClip clipOverworld;
+    public AudioClip clipUnderworld;
+    public AudioClip clipBowserCastle;
+
+
+    public AudioClip clipStarman;
+    public AudioClip clipLevelCompleted;
+    public AudioClip clipCastleCompleted;
+    public AudioClip clipGameover;
+    public AudioClip clipIntoTunnel;
+
+
+    LevelMusic current;
+    bool starmanActivated;
+
 
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            audioSource = GetComponent<AudioSource>();
+            //SFX = GetComponent<AudioSource>();
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -40,71 +67,201 @@ public class AudioManager : MonoBehaviour
 
     public void PlayJump()
     {
-        audioSource.PlayOneShot(clipJump);
+        sfx.PlayOneShot(clipJump);
     }
 
     public void PlayBigJump()
     {
-        audioSource.PlayOneShot(clipBigJump);
+        sfx.PlayOneShot(clipBigJump);
     }
 
     public void PlayCoin()
     {
-        audioSource.PlayOneShot(clipCoin);
+        sfx.PlayOneShot(clipCoin);
     }
 
     public void PlayStomp()
     {
-        audioSource.PlayOneShot(clipStomp);
+        sfx.PlayOneShot(clipStomp);
     }
 
     public void PlayFlipDie()
     {
-        audioSource.PlayOneShot(clipFlipDie);
+        sfx.PlayOneShot(clipFlipDie);
     }
 
     public void PlayShoot()
     {
-        audioSource.PlayOneShot(clipShoot);
+        sfx.PlayOneShot(clipShoot);
     }
 
     public void PlayPowerUp()
     {
-        audioSource.PlayOneShot(clipPowerUp);
+        sfx.PlayOneShot(clipPowerUp);
     }
 
     public void PlayPowerDown()
     {
-        audioSource.PlayOneShot(clipPowerDown);
+        sfx.PlayOneShot(clipPowerDown);
+    }
+    //Al parecer el audio de meterse en una tuberia es el mismo que recibir daño
+    public void PlayPipe()
+    {
+        sfx.PlayOneShot(clipPowerDown);
     }
 
     public void PlayPowerAppear()
     {
-        audioSource.PlayOneShot(clipPowerUpAppear);
+        sfx.PlayOneShot(clipPowerUpAppear);
     }
 
     public void PlayBreak()
     {
-        audioSource.PlayOneShot(clipBreak);
+        sfx.PlayOneShot(clipBreak);
+    }
+
+    public void Play1UP()
+    {
+        sfx.PlayOneShot(clip1UP);
     }
 
     public void PlayBump()
     {
-        audioSource.PlayOneShot(clipBump);
+        sfx.PlayOneShot(clipBump);
     }
+
+    public void PlayBowserFall()
+    {
+        sfx.PlayOneShot(clipBowserFall);
+    }
+
 
     public void PlayDie()
     {
-        audioSource.PlayOneShot(clipDie);
+        music.pitch = 1f;
+        music.clip = clipDie;
+        music.loop = false;
+        music.Play();
     }
 
     public void PlayFlagPole()
     {
-        audioSource.PlayOneShot(clipFlagPoleDown);
+        music.pitch = 1f;
+        music.clip = clipFlagPoleDown;
+        music.loop = false;
+        music.Play();
     }
-    
-    public void Play1UP()
+
+
+
+    public void PlayLevelStageMusic(LevelMusic levelMusic)
     {
-        audioSource.PlayOneShot(clip1UP);
+        switch (levelMusic)
+        {
+            case LevelMusic.Overworld:
+                MusicOverworld();
+                break;
+            case LevelMusic.UnderGround:
+                MusicUnderWorld();
+                break;
+            case LevelMusic.Castle:
+                MusicCastle();
+                break;
+            case LevelMusic.IntoTunnel:
+                PlayIntoTunnel();
+                break;
+        }
+    }
+
+
+    void MusicOverworld()
+    {
+        current = LevelMusic.Overworld;
+        if (!starmanActivated)
+        {
+            music.clip = clipOverworld;
+            music.loop = true;
+            music.Play();
+        }
+    }
+
+    void MusicUnderWorld()
+    {
+        current = LevelMusic.UnderGround;
+        if (!starmanActivated)
+        {
+            music.clip = clipUnderworld;
+            music.loop = true;
+            music.Play();
+        }
+    }
+
+    void MusicCastle()
+    {
+        current = LevelMusic.Castle;
+        if (!starmanActivated)
+        {
+            music.clip = clipBowserCastle;
+            music.loop = true;
+            music.Play();
+        }
+    }
+
+
+    public void MusicStar()
+    {
+        starmanActivated = true;
+        music.clip = clipStarman;
+        music.loop = true;
+        music.Play();
+    }
+
+    public void StopMusicStar(bool playLevelMusic)
+    {
+        if (starmanActivated)
+        {
+            starmanActivated = false;
+            if (playLevelMusic)
+            {
+                PlayLevelStageMusic(current);
+            }
+        }
+    }
+
+    public void PlayLevelCompleted()
+    {
+        music.pitch = 1f;
+        music.clip = clipLevelCompleted;
+        music.loop = false;
+        music.Play();
+    }
+
+    public void PlayCastleCompleted()
+    {
+        music.pitch = 1f;
+        music.clip = clipCastleCompleted;
+        music.loop = false;
+        music.Play();
+    }
+
+    public void PlayGameover()
+    {
+        music.pitch = 1f;
+        music.clip = clipGameover;
+        music.loop = false;
+        music.Play();
+    }
+
+    void PlayIntoTunnel()
+    {
+        music.clip = clipIntoTunnel;
+        music.loop = false;
+        music.Play();
+    }
+
+//Hacemos que suene más rapido.
+    public void SpeedMusic()
+    {
+        music.pitch = 1.5f;
     }
 }

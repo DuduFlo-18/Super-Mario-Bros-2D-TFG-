@@ -16611,7 +16611,9 @@ MonoBehaviour:
   timer: 0
   spawnPoint: {fileID: 4220688234293511072}
   checkPoint: {fileID: 4220688234909713207}
+  hasLevelStart: 0
   cameraMove: {fileID: 209806549}
+  backGroundMusic: 2
   levelFinished: 0
   levelPaused: 0
   countPoints: 0

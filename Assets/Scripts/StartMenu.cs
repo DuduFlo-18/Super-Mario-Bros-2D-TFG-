@@ -6,6 +6,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
 public class StartMenu : MonoBehaviour
 {
@@ -17,8 +18,10 @@ public class StartMenu : MonoBehaviour
     void Start()
     {
         //Pregunte el record de puntos y los muestra en el Menu
-        int score = PlayerPrefs.GetInt("Puntos");
-        topScore.text = "TOP - " + score.ToString("D6");
+        // int score = PlayerPrefs.GetInt("Puntos");
+        // topScore.text = "TOP - " + score.ToString("D6");
+        StartCoroutine(GetHighscoreFromServer());  // (Nuevo) Petición GET al iniciar
+
         Mario.instance.Respawn(marioSpawn);
 
         EventSystem.current.SetSelectedGameObject(buttonDefault);
@@ -31,6 +34,40 @@ public class StartMenu : MonoBehaviour
             //Esto lo dejara borroso si no hay posibilidad de Continuar la partida.
             buttonContinue.GetComponentInChildren<TextMeshProUGUI>().color = new Color(1f, 1f, 1f, 0.5f);
         }
+    }
+
+    // (Nuevo) Corrutina para solicitar la máxima puntuación al servidor
+    IEnumerator GetHighscoreFromServer()
+    {
+        Debug.Log("Intentando conectar a la API de puntuaciones...");
+        UnityWebRequest request = UnityWebRequest.Get("https://mario-api-576905321923.europe-west1.run.app/highscore");
+        yield return request.SendWebRequest();
+        if (request.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError("Error obteniendo puntuación: " + request.error);
+        }
+        else
+        {
+            // Suponemos que la respuesta es JSON: { "highscore": <int> }
+            string json = request.downloadHandler.text;
+            HighscoreResponse data = JsonUtility.FromJson<HighscoreResponse>(json);
+            if (data != null)
+            {
+                int maxScore = data.highscore;
+                topScore.text = "TOP - " + maxScore.ToString("D6");
+                // Actualizar el maxScore en ScoreManager (opcional, para referencia local)
+                if (ScoreManager.instance != null)
+                {
+                    ScoreManager.instance.maxScore = maxScore;
+                }
+            }
+        }
+    }
+
+    // (Nuevo) Clase auxiliar para deserializar la respuesta JSON
+    [System.Serializable]
+    private class HighscoreResponse {
+        public int highscore;
     }
 
     public void ButtonNewGame()

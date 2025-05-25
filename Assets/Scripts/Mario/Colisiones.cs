@@ -84,7 +84,7 @@ public class Colisiones : MonoBehaviour
             //Si es invencible no le afecta (Estrella)
             if (!mario.isInvincible)
             {
-                mario.Hit();
+                mario.Dead();
             }
         }
         
@@ -175,9 +175,7 @@ public class Colisiones : MonoBehaviour
                     enemy.Stomped(transform);
                     mover.BounceUp();
                 }
-
             }
-
         }
 
     }

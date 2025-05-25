@@ -15,9 +15,12 @@ public class LevelManager : MonoBehaviour
     public Transform spawnPoint;
     public Transform checkPoint;
 
+    public bool hasLevelStart;
+
    
 
     public CameraMove cameraMove;
+    public LevelMusic backGroundMusic;
 
     public bool levelFinished;
     public bool levelPaused;
@@ -33,6 +36,7 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
+        AudioManager.instance.PlayLevelStageMusic(backGroundMusic);
         // coins = 0;
         // hud.UpdateCoins(coins);
 
@@ -45,12 +49,23 @@ public class LevelManager : MonoBehaviour
         GameManager.instance.LevelLoaded();
     }
 
+    // public void StartLevel(int currentPoint)
+    // {
+    //     AudioManager.instance.PlayLevelStageMusic(backGroundMusic);
+    // }
+
     // Update is called once per frame
     void Update()
     {
         if (!levelFinished && !levelPaused)
         {
             timer -= Time.deltaTime;
+
+            if (timer <= 100)
+            {
+                AudioManager.instance.SpeedMusic();
+            }
+            
             if (timer <= 0)
             {
                 // mario.Dead();

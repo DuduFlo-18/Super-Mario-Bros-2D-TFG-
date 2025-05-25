@@ -11,6 +11,7 @@ public class Stage : MonoBehaviour
     public CameraMove cameraFollow;
     public bool cameraMove;
 
+    public LevelMusic backgroundMusic;
     public Color backgroundColor;
 
     // Start is called before the first frame update
@@ -26,6 +27,7 @@ public class Stage : MonoBehaviour
 
     public void EnterStage()
     {
+        AudioManager.instance.PlayLevelStageMusic(backgroundMusic);
         Camera.main.backgroundColor = backgroundColor;
         Mario.instance.transform.position = enterPoint.position;
         cameraFollow.transform.position = new Vector3(transform.position.x, transform.position.y, cameraFollow.transform.position.z);

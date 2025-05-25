@@ -17,7 +17,7 @@ public class CollisionDetect : MonoBehaviour
             collision.transform.parent.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             if (collision.GetComponentInParent<Mario>().IsBig())
             {
-                block.bouncing = true;
+                block.bouncing = false;
                 block.HeadCollision(true);
             }
             else
