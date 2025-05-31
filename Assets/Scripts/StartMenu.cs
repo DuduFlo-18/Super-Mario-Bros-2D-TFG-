@@ -14,13 +14,10 @@ public class StartMenu : MonoBehaviour
     public Vector2 marioSpawn;
     public GameObject buttonDefault;
     public GameObject buttonContinue;
-    // Start is called before the first frame update
+
     void Start()
     {
-        //Pregunte el record de puntos y los muestra en el Menu
-        // int score = PlayerPrefs.GetInt("Puntos");
-        // topScore.text = "TOP - " + score.ToString("D6");
-        StartCoroutine(GetHighscoreFromServer());  // (Nuevo) Petición GET al iniciar
+        StartCoroutine(GetHighscoreFromServer()); 
 
         Mario.instance.Respawn(marioSpawn);
 
@@ -36,7 +33,7 @@ public class StartMenu : MonoBehaviour
         }
     }
 
-    // (Nuevo) Corrutina para solicitar la máxima puntuación al servidor
+    //Corrutina para solicitar la máxima puntuación al servidor y actualizar el UI con formato
     IEnumerator GetHighscoreFromServer()
     {
         Debug.Log("Intentando conectar a la API de puntuaciones...");
@@ -63,14 +60,8 @@ public class StartMenu : MonoBehaviour
             }
         }
     }
-
-    // (Nuevo) Clase auxiliar para deserializar la respuesta JSON
-    [System.Serializable]
-    private class HighscoreResponse {
-        public int highscore;
-    }
-
-    public void ButtonNewGame()
+    // Botones del menú principal
+   public void ButtonNewGame()
     {
         GameManager.instance.StartGame();
     }
@@ -78,5 +69,12 @@ public class StartMenu : MonoBehaviour
     public void ButtonContinueGame()
     {
         GameManager.instance.ContinueGame();
+    }
+
+
+    // Clase auxiliar para deserializar la respuesta JSON
+    [System.Serializable]
+    private class HighscoreResponse {
+        public int highscore;
     }
 }

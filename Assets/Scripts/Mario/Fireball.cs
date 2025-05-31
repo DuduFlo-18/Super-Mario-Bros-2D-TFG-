@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Este script se encarga de gestionar el comportamiento de la bola de fuego lanzada por Mario, incluyendo su movimiento, colisiones y explosion al chocar.
 public class Fireball : MonoBehaviour
 {
+    //Valores que se pueden ajustar desde el inspector de Unity 
     public float direction;
     public float speed;
     public float bounceForce;
@@ -18,7 +20,7 @@ public class Fireball : MonoBehaviour
 
     }
 
-    // Start is called before the first frame update
+    // Hace que la bola de fuego se mueva en la direccion indicada al lanzarla.
     void Start()
     {
         speed *= direction;
@@ -28,10 +30,10 @@ public class Fireball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //transform.Rotate(0,0, speed*Time.deltaTime * -45);
         rb2d.velocity = new Vector2(speed, rb2d.velocity.y);
     }
 
+    // Si la bola de fuego colisiona con un enemigo o con el suelo, se ejecuta la logica de colision. (Enemigo = recibe daño, Suelo = rebota, Pared = explota)
     private void OnCollisionEnter2D(Collision2D collision)
     {
         colision = true;
@@ -46,11 +48,8 @@ public class Fireball : MonoBehaviour
         else
         {
             Vector2 sidepoint = collision.GetContact(0).normal;
-            //Debug.Log("SidePoint: " + sidepoint);
-
-            if (Mathf.Abs( sidepoint.x) >0.01f) //Colision lateral = Destruir
+            if (Mathf.Abs(sidepoint.x) > 0.01f) //Colision lateral = Destruir
             {
-                //Destroy(gameObject);
                 Explode(collision.GetContact(0).point);
             }
             else if (sidepoint.y > 0) //Colision con el suelo = Rebotar
@@ -69,6 +68,7 @@ public class Fireball : MonoBehaviour
         }
     }
 
+    // Si la bola de fuego sigue colisionando con el mismo objeto, explota.
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (colision)
@@ -80,6 +80,8 @@ public class Fireball : MonoBehaviour
             Explode(collision.GetContact(0).point);
         }
     }
+
+    // Crea una explosion en el punto de colision y destruye la bola de fuego.
     void Explode(Vector2 point)
     {
         AudioManager.instance.PlayBump();

@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Este script se encarga de dar funcionalidad a los bloques de monedas en el juego.
 public class BlockCoin : MonoBehaviour
 {
+    //Añadimos un prefab de puntos para que se muestren los puntos al conseguir monedas en los bloques
     public GameObject pointsPrefab;
 
-    // Start is called before the first frame update
+    // Al golpear el bloque, se añade una moneda al GameManager, se reproduce un sonido de moneda.
     void Start()
     {
         GameManager.instance.AddCoin();
@@ -21,6 +23,7 @@ public class BlockCoin : MonoBehaviour
         StartCoroutine(Animation());
     }
 
+    // Metodo para animar el bloque al ser golpeado
     IEnumerator Animation()
     {
         float time = 0;
@@ -30,7 +33,7 @@ public class BlockCoin : MonoBehaviour
 
         while (time < duration)
         {
-            transform.position = Vector2.Lerp(startPosition, targetPosition, time/duration);
+            transform.position = Vector2.Lerp(startPosition, targetPosition, time / duration);
             time += Time.deltaTime;
             yield return null;
         }
@@ -38,7 +41,7 @@ public class BlockCoin : MonoBehaviour
         time = 0;
         while (time < duration)
         {
-            transform.position = Vector2.Lerp(targetPosition, startPosition, time/duration);
+            transform.position = Vector2.Lerp(targetPosition, startPosition, time / duration);
             time += Time.deltaTime;
             yield return null;
         }

@@ -8,6 +8,8 @@ public class MenuCursor : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
     public GameObject icon;
 
+    // Al iniciar el Game, el boton tendra 2 estados: seleccionado y no seleccionado.
+    // Tendrá un pequeño icono que se mostrará cuando el botón esté seleccionado.
     public void OnSelect(BaseEventData eventData)
     {
         icon.SetActive(true);

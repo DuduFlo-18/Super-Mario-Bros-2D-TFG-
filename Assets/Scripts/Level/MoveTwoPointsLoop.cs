@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Este script permite mover un objeto entre dos puntos de forma continua en bucle, usado para la plataforma flotante.
 public class MoveTwoPointsLoop : MonoBehaviour
 {
     public Transform pointA;
@@ -10,7 +11,7 @@ public class MoveTwoPointsLoop : MonoBehaviour
     Vector3 currentTarget;
     Vector3 startPoint;
     Vector3 endPoint;
-    // Start is called before the first frame update
+    // Inicializa las variables startPoint y endPoint con las posiciones de los puntos A y B al inicio del juego.
     void Start()
     {
         startPoint = pointA.position;
@@ -18,7 +19,7 @@ public class MoveTwoPointsLoop : MonoBehaviour
         currentTarget = endPoint;
     }
 
-    // Update is called once per frame
+    // Actualiza la posición del objeto en cada frame, moviéndolo hacia el target actual.
     void Update()
     {
         float step = speed * Time.deltaTime;

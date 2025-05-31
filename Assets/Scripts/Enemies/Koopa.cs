@@ -6,23 +6,30 @@ using UnityEngine;
 public class Koopa : Enemy
 {
     bool isHidden;
+
+    //Tiempo metido en el caparazon
     public float maxStoppedTime;
     float stoppedTimer;
 
     public float rollingSpeed; 
+
+    //Si esta rodando no podrá salir del caparazon
     public bool isRolling;
     protected override void Update()
     {
         base.Update();
-        if(isHidden && rb2d.velocity.x == 0f)
+        //Comprueba si el caparazon esta quieto y escondido
+        if (isHidden && rb2d.velocity.x == 0f)
         {
-         stoppedTimer += Time.deltaTime;   
-         if (stoppedTimer >= maxStoppedTime)
-         {
-            ResetMove();
-         }
+            stoppedTimer += Time.deltaTime;
+            if (stoppedTimer >= maxStoppedTime)
+            {
+                ResetMove();
+            }
         }
     }
+    
+    // Logica de si Mario pisa al caparazon
     public override void Stomped(Transform player)
     {
         isRolling = false;
@@ -42,21 +49,21 @@ public class Koopa : Enemy
             }
             else
             {
-            //Si mario esta a la izquierda o a la derecha del Caparazon
+                //Si mario esta a la izquierda o a la derecha del Caparazon, se lanza en esa dirección
                 if (player.position.x < transform.position.x)
                 {
                     automovement.speed = rollingSpeed;
                 }
                 else
                 {
-                    automovement.speed  = -rollingSpeed;
+                    automovement.speed = -rollingSpeed;
                 }
-                automovement.ContinueMovement(new Vector2(automovement.speed,0));
+                automovement.ContinueMovement(new Vector2(automovement.speed, 0));
                 isRolling = true;
             }
-
-        
         }
+
+        // Logica para destruir el Koopa si este sale fuera de la pantalla
         DestroyOutCamera destroyOutCamera = GetComponent<DestroyOutCamera>();
         if (isRolling)
         {
@@ -69,11 +76,12 @@ public class Koopa : Enemy
 
         gameObject.layer = LayerMask.NameToLayer("OnlyGround");
 
-    //Para que se salga de la hitbox temporalmente
+        //Para que se salga de la hitbox temporalmente
         Invoke("ResetLayer", 0.1f);
         stoppedTimer = 0;
     }
 
+    //Si se choca con un caparazon rodante en movimiento elimina al enemigo, sino cambiará la dirección del caparazon
     public override void HitRollingShell()
     {
         if (!isRolling)
@@ -86,11 +94,13 @@ public class Koopa : Enemy
         }
     }
 
+    // Metodo para reiniciar  la capa del Koopa y considerarlo como enemigo de nuevo
     void ResetLayer()
     {
         gameObject.layer = LayerMask.NameToLayer("Enemy");
     }
 
+    // Reinicia el movimiento del Koopa si este se queda quieto durante un tiempo
     void ResetMove()
     {
         automovement.ContinueMovement();
@@ -98,13 +108,15 @@ public class Koopa : Enemy
         animator.SetBool("Hidden", isHidden);
         stoppedTimer = 0;
     }
+    
+    // Si el Koopa esta rodando y choca con un enemigo, este recibe el golpe. Sino, se comporta como un enemigo normal y chocan.
     protected override void OnCollisionEnter2D(Collision2D collision)
     {
         if (isRolling)
         {
             if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-//                Debug.Log("Koopa Hit");
+                //                Debug.Log("Koopa Hit");
                 collision.gameObject.GetComponent<Enemy>().HitRollingShell();
             }
             else if (!isHidden)

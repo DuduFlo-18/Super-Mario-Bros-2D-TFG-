@@ -3585,6 +3585,10 @@ PrefabInstance:
       propertyPath: numCoins
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4985739964410212523, guid: e2de8056b79316642a9c3af59ad5a2e2, type: 3}
+      propertyPath: itemFlowerPrefab
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5970209320455551985, guid: e2de8056b79316642a9c3af59ad5a2e2, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -4990,6 +4994,14 @@ PrefabInstance:
     - target: {fileID: 6796653364859107909, guid: 98267c412362af948bc899f87286a764, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6796653364859107910, guid: 98267c412362af948bc899f87286a764, type: 3}
+      propertyPath: m_Size.y
+      value: 0.5884476
+      objectReference: {fileID: 0}
+    - target: {fileID: 6796653364859107910, guid: 98267c412362af948bc899f87286a764, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.20577621
       objectReference: {fileID: 0}
     - target: {fileID: 6796653364859107911, guid: 98267c412362af948bc899f87286a764, type: 3}
       propertyPath: m_Name
@@ -14212,7 +14224,7 @@ SpriteRenderer:
   m_Size: {x: 35.877373, y: 4.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1854951257

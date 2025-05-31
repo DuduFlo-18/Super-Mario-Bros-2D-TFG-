@@ -12,12 +12,12 @@ public class LevelManager : MonoBehaviour
     public float timer;
 
     Mario mario;
+
+    // Referencias a los puntos de inicio y checkpoint del nivel
     public Transform spawnPoint;
     public Transform checkPoint;
 
     public bool hasLevelStart;
-
-   
 
     public CameraMove cameraMove;
     public LevelMusic backGroundMusic;
@@ -34,27 +34,20 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    // Al inicar el nivel, se inicializan las variables y se reproduce la musica de fondo del nivel.
     void Start()
     {
         AudioManager.instance.PlayLevelStageMusic(backGroundMusic);
-        // coins = 0;
-        // hud.UpdateCoins(coins);
 
         timer = time;
         GameManager.instance.hud.UpdateTime(timer);
-        //hud.UpdateTime(timer);
 
         mario = FindObjectOfType<Mario>();
         cameraMove = Camera.main.GetComponent<CameraMove>();
         GameManager.instance.LevelLoaded();
     }
 
-    // public void StartLevel(int currentPoint)
-    // {
-    //     AudioManager.instance.PlayLevelStageMusic(backGroundMusic);
-    // }
-
-    // Update is called once per frame
+    // Si el nivel no ha terminado y no esta pausado, se actualiza el temporizador. (Junto con la velocidad de la musica)
     void Update()
     {
         if (!levelFinished && !levelPaused)
@@ -68,27 +61,21 @@ public class LevelManager : MonoBehaviour
             
             if (timer <= 0)
             {
-                // mario.Dead();
                 GameManager.instance.RunOutOfTime();
                 timer = 0;
             }
-            //hud.UpdateTime(timer);
             GameManager.instance.hud.UpdateTime(timer);
         }
     }
 
-    // public void AddCoins()
-    // {
-    //     coins++;
-    //     hud.UpdateCoins(coins);
-    // }
-
+    // Cuando se termina el nivel, se inicia la rutina para contar los puntos restantes y se marca el nivel como terminado.
     public void FinishLevel()
     {
         levelFinished = true;
         StartCoroutine(SecondsToPoint());
     }
 
+    // Corutina que se ejecuta al finalizar el nivel, cuenta los puntos restantes y actualiza la UI. (Hasta no haber calculado todos los puntos, no continuara el juego)
     IEnumerator SecondsToPoint()
     {
         yield return new WaitForSeconds(1f);

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Este script se encarga de gestionar las colisiones de Mario con el entorno, incluyendo el suelo, enemigos y plataformas.
 public class Colisiones : MonoBehaviour
 {
     public bool isGrounded;
@@ -23,14 +24,13 @@ public class Colisiones : MonoBehaviour
     }
 
 
+// Logica para comprobar si Mario esta en el suelo, y asi poder saltar o no.
     public bool Grounded()
     {
-        // isGrounded = Physics2D.OverlapCircle(groundCheck.position,groundCheckRadius,groundLayer);
-
         Vector2 pieizq = new Vector2(col2D.bounds.center.x - col2D.bounds.extents.x, col2D.bounds.center.y);
         Vector2 pieder = new Vector2(col2D.bounds.center.x + col2D.bounds.extents.x, col2D.bounds.center.y);
 
-        //Muestra visual de los bordes para saber si esta en contacto con el suelo.
+        //Muestra visual de los bordes para saber si esta en contacto con el suelo. (Solo para debug)
         Debug.DrawRay(pieizq, Vector2.down * col2D.bounds.extents.y * 1.5f, Color.magenta);
         Debug.DrawRay(pieder, Vector2.down * col2D.bounds.extents.y * 1.5f, Color.magenta);
 
@@ -87,7 +87,7 @@ public class Colisiones : MonoBehaviour
                 mario.Dead();
             }
         }
-        
+
 
         //Interaccion con la barras de fuego (Nivel de Bowser)
         if (collision.gameObject.layer == LayerMask.NameToLayer("DamagePlayer"))
@@ -101,6 +101,7 @@ public class Colisiones : MonoBehaviour
 
     }
 
+    // Cambia el layer del jugador a "PlayerDead" para que no colisione con nada (solo sea visual)
     public void Dead()
     {
         gameObject.layer = LayerMask.NameToLayer("PlayerDead");
@@ -109,6 +110,8 @@ public class Colisiones : MonoBehaviour
             transform.gameObject.layer = LayerMask.NameToLayer("PlayerDead");
         }
     }
+
+    // Cambia el layer del jugador a "Player" para que pueda colisionar con los objetos del juego
     public void Respawn()
     {
         gameObject.layer = LayerMask.NameToLayer("Player");
@@ -118,6 +121,7 @@ public class Colisiones : MonoBehaviour
         }
     }
 
+    // Cambia el layer del jugador a "OnlyGround" para que no colisione con nada excepto el suelo (I-Frames)
     public void HurtCollision(bool activate)
     {
         if (activate)
@@ -132,31 +136,9 @@ public class Colisiones : MonoBehaviour
         }
     }
 
-    // private void OnCollisionStay2D(Collision2D collision)
-    // {
-    //     if(collision.gameObject.CompareTag("Pipe"))
-    //     Debug.Log("Colision Stay: " + collision.gameObject.name);
-    // } 
-
-    // private void OnCollisionExit2D(Collision2D collision)
-    // {
-    //     if(collision.gameObject.CompareTag("Pipe"))
-    //     Debug.Log("Colision Exit: " + collision.gameObject.name);
-    //     else if (collision.gameObject.CompareTag("Ground")) 
-    //     {
-    //         Debug.Log("Terminamos de tocar el suelo");
-    //     }
-    // } 
-
+    // Manejamos las colisiones con los enemigos
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // PlayerHit playerHit = collision.GetComponent<PlayerHit>();
-        // if (playerHit != null)
-        // {
-        //     playerHit.Hit();
-        //     mover.BounceUp();
-        // }
-
         Enemy enemy = collision.GetComponent<Enemy>();
         if (enemy != null)
         {
@@ -180,6 +162,8 @@ public class Colisiones : MonoBehaviour
 
     }
 
+    //Si mario se encuentra encima de una plataforma, se asocia como padre para que se mueva con ella
+    // Se le asocia como padre de la plataforma para que se mueva con ella
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("Platform") && isGrounded)
@@ -187,7 +171,8 @@ public class Colisiones : MonoBehaviour
             transform.parent = collision.transform;
         }
     }
-    
+
+    // Al salir de la colision con una plataforma, se desasocia del padre para que no se mueva con la plataforma
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Platform"))
@@ -197,6 +182,4 @@ public class Colisiones : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
     }
-
-
 }

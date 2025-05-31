@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Usamos esta biblioteca para detectar eventos de entrada del usuario (Botones táctiles)
+using UnityEngine.EventSystems;
+
 public class Move : MonoBehaviour
 {
     enum Direction { Left = -1, None = 0, Right = 1 };
@@ -63,8 +66,7 @@ public class Move : MonoBehaviour
 
     void Update()
     {
-
-        if (GameManager.instance.isGameOver)
+        if (GameManager.instance.isGameOver || Mario.instance == null || Mario.instance.isDead)
         {
             animaciones.Grounded(true);
             return;
@@ -89,17 +91,53 @@ public class Move : MonoBehaviour
 
         else
         {
-            //           headBox.SetActive(false);
+
+            // Prueba de Salto 1 (Inputs Normales)
+            // if (isJumping)
+            // {
+            //     if (rb2d.velocity.y > 0f)
+            //     {
+            //         //               headBox.SetActive(true);
+            //         if (Input.GetKey(KeyCode.Space))
+            //         {
+            //             jumpTimer += Time.deltaTime;
+            //         }
+            //         if (Input.GetKeyUp(KeyCode.Space))
+            //         {
+            //             if (jumpTimer < maxJumpTime)
+            //             {
+            //                 rb2d.gravityScale = defaultGravity * 3f;
+            //             }
+            //         }
+            //     }
+
+            //     else
+            //     {
+            //         rb2d.gravityScale = defaultGravity;
+            //         isJumping = false;
+            //         jumpTimer = 0;
+
+            //         //Prueba de Salto fallida, mala colision con el Tilemap
+            //         // if (grounded)
+            //         // {
+            //         //     isJumping = false;
+            //         //     jumpTimer = 0;
+            //         //     animaciones.Jumping(false);
+            //         // }
+            //     }
+            // }
+
+            // Prueba de Salto 2 (Inputs para mando y teclado)
             if (isJumping)
             {
                 if (rb2d.velocity.y > 0f)
                 {
-                    //               headBox.SetActive(true);
-                    if (Input.GetKey(KeyCode.Space))
+                    if (Input.GetButton("Jump")) // detecta espacio y mando
                     {
                         jumpTimer += Time.deltaTime;
                     }
-                    if (Input.GetKeyUp(KeyCode.Space))
+
+                    if (Input.GetButtonUp("Jump"))
                     {
                         if (jumpTimer < maxJumpTime)
                         {
@@ -107,45 +145,49 @@ public class Move : MonoBehaviour
                         }
                     }
                 }
-
                 else
                 {
                     rb2d.gravityScale = defaultGravity;
                     isJumping = false;
                     jumpTimer = 0;
-                    //Prueba de Salto fallida, mala colision con el Tilemap
-                    // if (grounded)
-                    // {
-                    //     isJumping = false;
-                    //     jumpTimer = 0;
-                    //     animaciones.Jumping(false);
-                    // }
                 }
             }
 
 
-            //Prueba de Movimiento 1 
+        //Prueba de Movimiento 1 - Inputs Normales (Solo Teclado)
             currentDirection = Direction.None;
-            if (inputMoveEnabled)
+            // if (inputMoveEnabled)
+            // {
+            //     if (Input.GetKeyDown(KeyCode.Space))
+            //     {
+            //         if (grounded)
+            //         {
+            //             Jump();
+            //         }
+            //     }
+
+            //     if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+            //     {
+            //         currentDirection = Direction.Left;
+            //     }
+
+            //     if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+            //     {
+            //         currentDirection = Direction.Right;
+            //     }
+            // }
+
+        //Prueba de Movimiento 2 - Inputs para Mando y teclado
+            float m = InputTranslator.Horizontal;
+
+            if (InputTranslator.Jump && grounded)
             {
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    if (grounded)
-                    {
-                        Jump();
-                    }
-                }
-
-                if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-                {
-                    currentDirection = Direction.Left;
-                }
-
-                if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-                {
-                    currentDirection = Direction.Right;
-                }
+                Jump();
             }
+
+            if (m < 0) currentDirection = Direction.Left;
+            else if (m > 0) currentDirection = Direction.Right;
+
         }
 
     }
@@ -156,6 +198,8 @@ public class Move : MonoBehaviour
         {
             return;
         }
+        
+    // Movimiento de Mario al tocar el Banderín
         // if (LevelManager.instance.levelFinished)
         // {
         if (isClimbingFlagPole)
@@ -169,18 +213,22 @@ public class Move : MonoBehaviour
             animaciones.Velocity(Math.Abs(currentVelocity));
         }
         //}
-        else if (!rb2d.isKinematic && !LevelManager.instance.levelFinished)
+
+    // Movimiento y lógica del Mario 
+        else if (!rb2d.isKinematic && !LevelManager.instance.levelFinished && inputMoveEnabled)
         {
             isSkidding = false;
-            //Comprueba velocidad actual en el eje X
+        //Comprueba velocidad actual en el eje X
             currentVelocity = rb2d.velocity.x;
 
             if (colisiones.CheckCollision((int)currentDirection))
             {
                 currentVelocity = 0;
             }
+        
             else
             {
+                //Si la direccion es positiva, movemos a la derecha
                 if (currentDirection > 0)
                 {
                     if (currentVelocity < 0)
@@ -194,6 +242,7 @@ public class Move : MonoBehaviour
                         transform.localScale = new Vector2(1, 1);
                     }
                 }
+                //Si la direccion es negativa, movemos a la izquierda
                 else if (currentDirection < 0)
                 {
                     if (currentVelocity > 0)
@@ -207,6 +256,7 @@ public class Move : MonoBehaviour
                         transform.localScale = new Vector2(-1, 1);
                     }
                 }
+                //Si no hay direccion, aplicamos friccion
                 else
                 {
                     if (currentVelocity > 1f)
@@ -233,6 +283,8 @@ public class Move : MonoBehaviour
             }
         }
     }
+
+    // Logica salto segun el estado de Mario
     void Jump()
     {
         //Logica de Sonido
@@ -259,6 +311,7 @@ public class Move : MonoBehaviour
         rb2d.velocity = velocity;
     }
 
+    // Logica de movimiento cuando Mario muere
     public void Dead()
     {
         inputMoveEnabled = false;
@@ -267,6 +320,7 @@ public class Move : MonoBehaviour
         rb2d.AddForce(Vector2.up * 5f, ForceMode2D.Impulse);
     }
 
+    // Logica de movimiento cuando Mario resucita
     public void Respawn()
     {
         isAutoWalking = false;
@@ -276,15 +330,16 @@ public class Move : MonoBehaviour
         transform.localScale = new Vector2(1, 1);
     }
 
+    // Logica de rebote al pisar a un enemigo
     public void BounceUp()
     {
         //Se para el movimiento para que no se multiplique el impulso con el salto
         rb2d.velocity = Vector2.zero;
         //Vector2 forceUp = new Vector2(0, 10f);
         rb2d.AddForce(Vector2.up * 10f, ForceMode2D.Impulse);
-
     }
 
+    // Logica de movimiento al tocar el banderin
     public void DownFlagPole()
     {
         if (!isClimbingFlagPole)
@@ -300,6 +355,7 @@ public class Move : MonoBehaviour
         }
     }
 
+    // Corutina para saltar del banderin y dirigirse a la meta
     IEnumerator JumpOffFlagPole()
     {
         isAutoWalking = false;
@@ -307,7 +363,7 @@ public class Move : MonoBehaviour
         rb2d.velocity = Vector2.zero;
         animaciones.Pause();
         yield return new WaitForSeconds(0.25f);
-        //Esperamos a quee la bandera baje
+        //Esperamos a que la bandera baje
         while (!isFlagdown)
         {
             yield return null;
@@ -324,10 +380,9 @@ public class Move : MonoBehaviour
         isAutoWalking = true;
         currentVelocity = autoWalkSpeed;
         AudioManager.instance.PlayLevelCompleted();
-
-        //AutoWalk();
     }
 
+    // Este metodo hace que Mario no pueda moverse de forma manual, y se mueve automaticamente hacia la derecha (Creado para cuando se termina un nivel)
     public void AutoWalk()
     {
         isAutoWalking = true;
@@ -336,6 +391,7 @@ public class Move : MonoBehaviour
         currentVelocity = autoWalkSpeed;
     }
 
+    // Este metodo hace que Mario se mueva automaticamente hacia una direccion concreta, y no pueda moverse de forma manual. (Creado para cuando se entra en una tuberia)
     public void AutomoveConnection(ConnectDirection direction)
     {
         isAutoWalking = false;
@@ -366,6 +422,7 @@ public class Move : MonoBehaviour
         }
     }
 
+    // Metodo para recuperar el movimiento de Mario, se usa cuando termina de moverse por una tuberia o al terminar un nivel.
     public void ResetMove()
     {
         rb2d.isKinematic = false;
@@ -373,6 +430,7 @@ public class Move : MonoBehaviour
         inputMoveEnabled = true;
     }
 
+    // Este metodo se encarga de mover a Mario automaticamente hacia abajo (Usado para las tuberias)
     IEnumerator AutoMoveConnectionDown()
     {
         float targetdown = transform.position.y - spriterenderer.bounds.size.y;
@@ -384,6 +442,7 @@ public class Move : MonoBehaviour
         moveConnectionComplete = true;
     }
 
+    // Este metodo se encarga de mover a Mario automaticamente hacia arriba (Usado para salir de las tuberias)
     IEnumerator AutoMoveConnectionUp()
     {
         float targetUp = transform.position.y + spriterenderer.bounds.size.y;
@@ -395,6 +454,7 @@ public class Move : MonoBehaviour
         moveConnectionComplete = true;
     }
 
+    // Este metodo se encarga de mover a Mario automaticamente hacia la derecha (Usado para salir de las tuberias)
     IEnumerator AutoMoveConnectionRight()
     {
         float targetRight = transform.position.x + spriterenderer.bounds.size.x * 2;
@@ -410,6 +470,7 @@ public class Move : MonoBehaviour
         moveConnectionComplete = true;
     }
 
+    // Este metodo se encarga de detener el movimiento de Mario, se usa cuando se quiere parar el movimiento manualmente.
     public void StopMove()
     {
         inputMoveEnabled = false;

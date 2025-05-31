@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    // Guardamos el estado del juego, como los mundos, niveles, HUD, Mario, vidas, monedas y si estamos en un respawn o game over.
     public World[] worlds;
     public int currentWorld;
     public int currentLevel;
@@ -31,12 +32,9 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    // Start is called before the first frame update
+    // Inicializamos el juego, ocultamos el temporizador.
     void Start()
     {
-        // lives = 3;
-        // coins = 97;
-        //hud.UpdateCoins(coins);
         HideTimer();
         isGameOver = true;
 
@@ -47,20 +45,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Progreso cargado: World = " + currentWorld + ", Level = " + currentLevel);
     }
 
-    // void Update()
-    // {
-    //     if (Input.GetKeyDown(KeyCode.N))
-    //     {
-    //         StartGame();
-    //     }
-    //     if (Input.GetKeyDown(KeyCode.C))
-    //     {
-    //         ContinueGame();
-    //     }
-    // }
-
-    
-
+    // Logica del contador de monedas, añadiendo monedas y comprobando si se ha llegado a 100 para dar una vida extra.
     public void AddCoin()
     {
         coins++;
@@ -73,6 +58,7 @@ public class GameManager : MonoBehaviour
         hud.UpdateCoins(coins);
     }
 
+    // Esto es una HitBox creada en el vacío y caidas del juego para matar a Mario.
     public void KillZone()
     {
         if (!isRespawning)
@@ -83,11 +69,13 @@ public class GameManager : MonoBehaviour
 
     }
 
+    // Logica para cuando se termina el tiempo del nivel, se mata a Mario.
     public void RunOutOfTime()
     {
         mario.Dead();
     }
 
+    // Logica para perder una vida, comprobando si estamos en respawn o no, y si quedan vidas o no.
     public void LoseLife()
     {
         if (!isRespawning)
@@ -105,12 +93,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Logica para ganar una vida, se incrementa el contador de vidas y se reproduce el sonido de 1UP.
     public void NewLife()
     {
         lives++;
         AudioManager.instance.Play1UP();
     }
 
+    // Logica para iniciar un nuevo juego, reiniciando las vidas, monedas y estado del juego.
     void NewGame()
     {
         lives = 3;
@@ -120,6 +110,7 @@ public class GameManager : MonoBehaviour
         checkpoint = false;
     }
 
+    // Logica para iniciar el juego, reiniciando el nivel y mundo actual, y cargando el primer nivel.
     public void StartGame()
     {
         currentLevel = 1;
@@ -127,6 +118,7 @@ public class GameManager : MonoBehaviour
         LoadLevel();
     }
 
+    // Logica para continuar el juego, cargando el nivel actual guardado en PlayerPrefs.
     public void ContinueGame()
     {
         LoadLevel();
@@ -148,6 +140,7 @@ public class GameManager : MonoBehaviour
     }
 
 
+    // Coroutine para el respawn de Mario, espera 3 segundos y luego carga la escena de transición.
     IEnumerator Respawn()
     {
         yield return new WaitForSeconds(3f);
@@ -171,6 +164,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Metodo que se llama cuando se carga un nivel, actualiza el HUD con el mundo y nivel actual, muestra el temporizador y respawnea a Mario.
     public void LevelLoaded()
     {
         hud.UpdateWorld(currentWorld, currentLevel);
@@ -193,6 +187,13 @@ public class GameManager : MonoBehaviour
 
         LevelManager.instance.cameraMove.StartFollow(Mario.instance.transform);
     }
+
+    // Metodo para ir a un nivel especifico, reinicia el checkpoint y carga la escena del nivel.
+    public void GoToLevel()
+    {
+        checkpoint = false;
+        SceneManager.LoadScene("Level" + currentWorld + "_" + currentLevel);
+    }
     public void GoToLevel(string level)
     {
         checkpoint = false;
@@ -200,6 +201,7 @@ public class GameManager : MonoBehaviour
 
     }
 
+    // Metodo para ir a un nivel especifico con el mundo y nivel
     public void GoToLevel(int world, int level)
     {
         checkpoint = false;
@@ -209,6 +211,7 @@ public class GameManager : MonoBehaviour
         LoadTransition();
     }
 
+    // Metodo para cargar el nivel actual, obtiene el nombre de la escena del mundo y nivel actual y lo carga.
     void LoadLevel()
     {
         int worldIndex = currentWorld - 1;
@@ -218,6 +221,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
+    // Metodo para ir al siguiente nivel, incrementa el nivel y mundo actual, guarda el progreso en PlayerPrefs y carga la escena de transición.
     public void NextLevel()
     {
         int worldIndex = currentWorld - 1;
@@ -252,6 +256,7 @@ public class GameManager : MonoBehaviour
         LoadTransition();
     }
 
+    // Metodo para cargar la escena de transición, que muestra un panel de game over o de nivel dependiendo del estado del juego.
     void LoadTransition()
     {
         //Carga la escena de transicion, dependiendo de si es game over o no mostramos el panel de game over o el de level.
@@ -271,6 +276,7 @@ public class GameManager : MonoBehaviour
     }
 }
 
+// Estructuras para guardar los mundos y niveles del juego.
 [System.Serializable]
 public struct World
 {

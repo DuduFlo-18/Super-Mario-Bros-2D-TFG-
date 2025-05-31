@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Este script gestiona la posición inicial de la cámara en un juego 2D, asegurando que la cámara se sitúe a una distancia adecuada del punto de inicio del nivel.
 public class StartPosCamera : MonoBehaviour
 {
     public Transform startPos;

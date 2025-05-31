@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Este script gestiona la reproducción de sonidos y música en el juego.
 public enum LevelMusic
 {
     Overworld,
@@ -12,7 +13,12 @@ public enum LevelMusic
 
 public class AudioManager : MonoBehaviour
 {
+    // Creación de una instancia para el AudioManager.
     public static AudioManager instance;
+
+// Creamos dos fuentes de audio, una para efectos de sonido (SFX) y otra para música.
+    public AudioSource sfx;
+    public AudioSource music;
 
     public AudioClip clipJump;
     public AudioClip clipBigJump;
@@ -31,10 +37,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip clipBowserFall;
 
 
-    public AudioSource sfx;
-    public AudioSource music;
-
-
+// Música de los niveles
     public AudioClip clipOverworld;
     public AudioClip clipUnderworld;
     public AudioClip clipBowserCastle;
@@ -211,6 +214,7 @@ public class AudioManager : MonoBehaviour
     public void MusicStar()
     {
         starmanActivated = true;
+        music.pitch = 1f;
         music.clip = clipStarman;
         music.loop = true;
         music.Play();
@@ -262,6 +266,9 @@ public class AudioManager : MonoBehaviour
 //Hacemos que suene más rapido.
     public void SpeedMusic()
     {
-        music.pitch = 1.5f;
+        if (!starmanActivated) // Solo acelerar si no está el modo estrella activo
+        {
+            music.pitch = 1.5f;
+        }
     }
 }

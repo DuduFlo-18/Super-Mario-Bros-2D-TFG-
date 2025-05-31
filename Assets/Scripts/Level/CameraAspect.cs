@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Este script se encarga de establecer la resolucion de aspecto de la camara.
 public class CameraAspect : MonoBehaviour
 {
     public Vector2 targetAspect = new Vector2(16f, 15f);

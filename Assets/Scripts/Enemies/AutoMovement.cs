@@ -44,6 +44,7 @@ public class AutoMovement : MonoBehaviour
        }
     }
 
+    // Activa el movimiento automático del enemigo cuando es visible en pantalla.
     public void ActivateMovement()
     {
         hasbeenVisible = true;
@@ -52,6 +53,7 @@ public class AutoMovement : MonoBehaviour
         movementPaused = false;
     }
 
+    // Actualiza la velocidad del enemigo en cada frame, invirtiendo la dirección si es necesario.
     private void FixedUpdate()
     {
         if (!movementPaused)
@@ -68,6 +70,7 @@ public class AutoMovement : MonoBehaviour
             {
                 timer = 0;
             }
+            // Actualiza la velocidad del enemigo, manteniendo la dirección y la velocidad vertical.
             rb2d.velocity = new Vector2(speed, rb2d.velocity.y);
 
             if (flipSprite)
@@ -84,6 +87,7 @@ public class AutoMovement : MonoBehaviour
         }
     } 
 
+    // Pausa el movimiento del enemigo, guardando la dirección y velocidad actuales.
     public void PauseMovement()
     {
         if(!movementPaused) 
@@ -95,16 +99,19 @@ public class AutoMovement : MonoBehaviour
         }
     }
 
+    // Reanuda el movimiento del enemigo con la dirección y velocidad guardadas.
     public void ContinueMovement()
     {
         if (movementPaused)
         {
-            speed = defaultSpeed*currentDirection.x;
+            speed = defaultSpeed * currentDirection.x;
             rb2d.velocity = new Vector2(speed, lastVelocity.y);
-            movementPaused = false;    
+            movementPaused = false;
         }
     }
 
+
+    // Reanuda el movimiento del enemigo.
     public void ContinueMovement(Vector2 newVelocity)
     {
         if (movementPaused)
@@ -114,6 +121,7 @@ public class AutoMovement : MonoBehaviour
         }
     }
 
+    // Cambia la dirección del movimiento del enemigo, invirtiendo la velocidad (movimiento del eje).
     public void ChangeDirection()
     {
         speed = -speed;

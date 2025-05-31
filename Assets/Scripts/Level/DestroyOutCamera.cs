@@ -3,23 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Este script se encarga de destruir los objetos que no estan visibles en la camara si estos han sido vistos en algun momento (En el Editor se rompe un poco este script).
 public class DestroyOutCamera : MonoBehaviour
 {
-
     SpriteRenderer spriteRenderer;
     bool wasVisible;
 
+// Distancia minima a la que el objeto se destruye si no esta visible
     public float minDistance = 0;
 
     public GameObject parentObject;
+
+    // Si es true, solo se destruye si el objeto esta por detras de la camara (esto es util para objetos que se mueven hacia la derecha y no queremos que se destruyan si estan delante de la camara).
     public bool onlyBack;
-    // Start is called before the first frame update
+
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    // Update is called once per frame
+    // Comprueba si es visible en la camara y si no lo es, destruye el objeto si ha sido visible en algun momento.
     void Update()
     {
         if (spriteRenderer.isVisible)
@@ -30,13 +33,6 @@ public class DestroyOutCamera : MonoBehaviour
         {
             if (wasVisible)
             {
-                // if (onlyBack && minDistance == 0)
-                // {
-                //     if (transform.position.x > Camera.main.transform.position.x)
-                //     {
-                //         return;
-                //     }
-                // }
                 //Dejamos que el objeto se destruya si no esta visible
                 if (Mathf.Abs(transform.position.x - Camera.main.transform.position.x) > minDistance)
                 {
@@ -56,7 +52,6 @@ public class DestroyOutCamera : MonoBehaviour
                     {
                         Destroy(parentObject);
                     }
-                    
                 }
             }
         }

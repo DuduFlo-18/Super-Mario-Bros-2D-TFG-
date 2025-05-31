@@ -8,6 +8,7 @@ public class Goomba : Enemy
     {
         base.Awake();
     }
+    // Realiza la logica de muerte del Goomba (sonidos, animaciones, etc.)
     public override void Stomped(Transform player)
     {
         AudioManager.instance.PlayStomp();

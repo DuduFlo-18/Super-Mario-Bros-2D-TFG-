@@ -6,12 +6,18 @@ using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
+
+// Este script se encarga de gestionar la interacción con el personaje Toad al final del nivel, mostrando mensajes y permitiendo regresar al menu principal.
 public class Toad : MonoBehaviour
 {
+
+    // Textos que se mostrarán al jugador al completar el nivel.
     public GameObject ToadText;
     public GameObject ToadText2;
     public GameObject ToadText3;
     public GameObject ToadText4;
+
+    // Al tocar al Toad, se detiene el movimiento del jugador y se muestran los textos de finalización del nivel en orden secuencial.
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
@@ -26,6 +32,7 @@ public class Toad : MonoBehaviour
         }
     }
 
+    // Corutina que muestra los textos de finalización del nivel uno por uno, con pausas entre cada uno, y espera a que el jugador presione una tecla para finalizar y regresar al menú principal.
     IEnumerator ShowTexts()
     {
         AudioManager.instance.PlayCastleCompleted();

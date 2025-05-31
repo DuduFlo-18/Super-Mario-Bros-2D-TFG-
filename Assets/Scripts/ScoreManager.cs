@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+// Este script gestiona la puntuación del juego, incluyendo la carga y envío de puntuaciones a un servidor remoto haciendo uso de una API llamada "Mario API".
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager instance;
@@ -10,7 +11,8 @@ public class ScoreManager : MonoBehaviour
 
     public int score = 0;
 
-     private string apiUrl = "https://mario-api-576905321923.europe-west1.run.app/highscore";
+    // URL de la API donde se enviarán y recibirán las puntuaciones
+    private string apiUrl = "https://mario-api-576905321923.europe-west1.run.app/highscore";
 
     public void Awake()
     {
@@ -21,9 +23,11 @@ public class ScoreManager : MonoBehaviour
         }
         else
         {
+            //Evitamos que haya más de una instancia de ScoreManager
             Destroy(gameObject);
         }
     }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,18 +35,30 @@ public class ScoreManager : MonoBehaviour
         //maxScore = PlayerPrefs.GetInt("Puntos", 0);
         score = 0;
         maxScore = 0;
-        Debug.Log("📡 Iniciando carga de highscore desde API...");
+        Debug.Log("Iniciando carga de highscore desde API...");
         StartCoroutine(GetHighScoreFromServer());
     }
 
+    // Reiniciamos la puntuación al iniciar un nuevo juego
     public void NewGame()
     {
         score = 0;
     }
 
+
+    // Variable para evitar enviar la puntuación más de una vez
+    private bool scoreSent = false;
+
     //Guardo de manera local y persistente si se ha roto el Record de Puntos
     public void GameOver()
     {
+        if (scoreSent)
+        {
+            Debug.LogWarning("La puntuación ya fue enviada, se ignora esta llamada duplicada.");
+            return;
+        }
+        scoreSent = true;
+
         // Enviamos la puntuación final al servidor
         StartCoroutine(SendScoreToServer(score));
         if (score > maxScore)
@@ -56,14 +72,15 @@ public class ScoreManager : MonoBehaviour
             Debug.Log("No se ha superado el record de puntos. Puntuación actual: " + score);
         }
     }
-    
-        public void AddScore(int amount)
+
+    // Método para añadir puntos a la puntuación actual
+    public void AddScore(int amount)
     {
         score += amount;
     }
 
 
-    
+    // Coroutine para obtener el highscore desde el servidor
     private IEnumerator GetHighScoreFromServer()
     {
         UnityWebRequest request = UnityWebRequest.Get(apiUrl);
@@ -84,6 +101,7 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
+    // Coroutine para enviar la puntuación final al servidor
     private IEnumerator SendScoreToServer(int finalScore)
     {
         ScoreData data = new ScoreData { score = finalScore };
@@ -108,6 +126,7 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
+    // Clases para manejar la estructura de datos de la puntuación
     [System.Serializable]
     private class ScoreData
     {

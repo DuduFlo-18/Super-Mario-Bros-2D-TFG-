@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+// Este script interactua con el Animator de Mario para controlar las animaciones del personaje (Animator es una parte gráfica de Unity que permite gestionar animaciones de forma sencilla con variables y condiciones).
 public class Animaciones : MonoBehaviour
 {
+    //Objecto del Animator (Parte Grafica en Unity) que controla las animaciones del personaje Mario
     Animator animator;
-    // Colisiones colisiones;
-    // Move mover;
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        // colisiones = GetComponent<Colisiones>();
-        // mover = GetComponent<Move>();
     }
 
     public void Grounded(bool isGrounded)
@@ -40,6 +38,7 @@ public class Animaciones : MonoBehaviour
         animator.SetTrigger("Dead");
     }
 
+// Cambia el estado de Mario (0: Normal, 1: Super, 2: Fuego)
     public void NewState(int state)
     {
         animator.SetInteger("State", state);
@@ -90,6 +89,7 @@ public class Animaciones : MonoBehaviour
         animator.speed = 1;
     }
 
+    // Reinicia el estado del animator (todos los parámetros y triggers)
     public void Reset()
     {
         animator.SetBool("Grounded", false);
@@ -109,7 +109,7 @@ public class Animaciones : MonoBehaviour
         animator.SetInteger("State", 0);
         animator.Play("States");
     }
-    
 
-    
+
+
 }

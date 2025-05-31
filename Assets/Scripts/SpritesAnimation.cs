@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Este script gestiona la animación de sprites en Unity, permitiendo reproducir una secuencia de sprites como una animación.
 public class SpritesAnimation : MonoBehaviour
 {
+    // Permitimos que el usuario asigne una serie de sprites a la animación
     public Sprite[] sprites;
     public float frameTime = 0.1f;
     int animationFrame = 0;
@@ -16,45 +18,21 @@ public class SpritesAnimation : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
+
     // Start is called before the first frame update
     void Start()
     {
-       //Animation();
-
-       //PROBLEMA SOLUCIONADO
-       StartCoroutine(Animation());
+        StartCoroutine(Animation());
     }
 
-    // Update is called once per frame
-    // void Update()
-    // {
-    //     timer += Time.deltaTime;
-    //     if (timer >= frameTime)
-    //     {
-    //         //Cambio de sprites
-    //         animationFrame++;
-            
-    //         //Controlamos la posicion del array
-    //         if (animationFrame >= sprites.Length)
-    //         {
-    //             animationFrame = 0;
-    //         }
-
-    //         spriteRenderer.sprite = sprites[animationFrame];
-    //         timer = 0;
-    //     }
-    // }
-
+    //Coroutine que gestiona la animación de los sprites
     IEnumerator Animation()
     {
         if (loop)
         {
             while (!stop)
             {
-                //Debug.Log("Animation Phase: "+ animationFrame);
                 spriteRenderer.sprite = sprites[animationFrame];
-                
-                
                 animationFrame++;
 
                 if (animationFrame >= sprites.Length)

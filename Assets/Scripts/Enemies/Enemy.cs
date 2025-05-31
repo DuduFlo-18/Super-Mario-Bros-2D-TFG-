@@ -12,20 +12,15 @@ public class Enemy : MonoBehaviour
 
     public GameObject floatPointsPrefab;
 
+    protected virtual void Start() { }
+
+    protected virtual void Update() { }
+
     protected virtual void Awake()
     {
         animator = GetComponent<Animator>();
         automovement = GetComponent<AutoMovement>();
         rb2d = GetComponent<Rigidbody2D>();
-    }
-
-    protected virtual void Start()
-    {
-
-    }
-    protected virtual void Update()
-    {
-
     }
 
     protected virtual void OnCollisionEnter2D(Collision2D collision)
@@ -37,31 +32,34 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public virtual void Stomped(Transform player)
-    {
-
-    }
-
+    // Metodo virtual que puede ser sobreescrito por las subclases
+    public virtual void Stomped(Transform player) { }
+    
+    // Golpeado por la bola de fuego
     public virtual void HitFireBall()
     {
         FlipDie();
     } 
 
+    // Golpeado por Mario modo Estrella
     public virtual void HitStarman()
     {
         FlipDie();
     }
 
+    // Este metodo mataba al enemigo si Mario lo golpeaba desde abajo del bloque en el que estaba situado el Enemigo.
     public virtual void HitBelowBlock()
-    { 
+    {
         FlipDie();
     }
 
+    // Si el enemigo es golpeado por un caparazón rodando, se invoca este metodo.
     public virtual void HitRollingShell()
     {
         FlipDie();
     }
 
+    //Metodo que se invoca para eliminar al enemigo.
     protected void FlipDie()
     {
         AudioManager.instance.PlayFlipDie();
@@ -76,6 +74,8 @@ public class Enemy : MonoBehaviour
         Dead();
     }
 
+
+    // Metodo que muestra el puntaje del enemigo al morir y lo añade al ScoreManager. (Muestra animación con puntos flotantes)
     protected void Dead()
     {
         ScoreManager.instance.AddScore(points);

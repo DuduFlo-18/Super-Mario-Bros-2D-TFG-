@@ -4,24 +4,30 @@ using UnityEngine;
 
 public class ShowAndHide : MonoBehaviour
 {
+    // Objecto que se moverá entre dos puntos
     public GameObject objectToMove;
+
+    // Puntos entre los que se moverá el objeto
     public Transform showPoint;
     public Transform hidePoint;
 
+
+    // Tiempo de espera antes de mostrar o esconder (Planta Piraña)
     public float waitForHide;
     public float waitForShow;
 
+    // Velocidades de movimiento al mostrarse y esconderse
     public float speedShow;
     public float speedHide;
 
 
+    // Tiempo de espera para mostrar y esconder
     float timershow;
     float timerhide;
 
     float speed;
     Vector2 targetPoint;
 
-    // Start is called before the first frame update
     void Start()
     {
         targetPoint = hidePoint.position;
@@ -30,7 +36,7 @@ public class ShowAndHide : MonoBehaviour
         timershow = 0;
     }
 
-    // Update is called once per frame
+    //Logica de movimiento (Planta Piraña)
     void Update()
     {
         objectToMove.transform.position = Vector2.MoveTowards(objectToMove.transform.position, targetPoint, speed*Time.deltaTime);
@@ -60,11 +66,13 @@ public class ShowAndHide : MonoBehaviour
         }
     }
 
+    // Se creo un cubo en el que si Mario esta dentro de este cubo, la planta no podrá salir del estado Hidden
     bool Locked()
     {
         return Physics2D.OverlapBox(transform.position + Vector3.up, Vector2.one, 0);
     }
 
+    // Este metodo es solo para poder visualizar el cubo de colision en el editor del Unity, no tiene efecto en el juego.
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireCube(transform.position + Vector3.up, Vector2.one);
