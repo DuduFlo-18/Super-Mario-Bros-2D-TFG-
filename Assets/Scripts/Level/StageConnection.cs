@@ -26,7 +26,7 @@ public class StageConnection : MonoBehaviour
     private void Update()
     {
 
-    //Prueba de entrada en tubería para Input de forma normal para teclado
+        //Prueba de entrada en tubería para Input de forma normal para teclado
         // if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && exitDirection == ConnectDirection.Down)
         // {
         //     if (stayConnection && !connectionStarted)
@@ -42,42 +42,43 @@ public class StageConnection : MonoBehaviour
         //     }
         // }
 
-    //Prueba de entrada en tubería para Input de Teclado y mando
-        float vertical = Input.GetAxisRaw("Vertical");
-        float horizontal = Input.GetAxisRaw("Horizontal");
 
-        if (!connectionStarted && stayConnection)
+        //Prueba de entrada en tubería para Input de Teclado, Mando y Táctil
+        float vertical = InputTranslator.Vertical;
+    float horizontal = InputTranslator.Horizontal;
+
+    if (!connectionStarted && stayConnection)
+    {
+        if (!inputInUse)
         {
-            if (!inputInUse)
+            if (vertical < -0.5f && exitDirection == ConnectDirection.Down)
             {
-                if (vertical < -0.5f && exitDirection == ConnectDirection.Down)
-                {
-                    StartCoroutine(StartConnection());
-                    inputInUse = true;
-                }
-                else if (horizontal > 0.5f && exitDirection == ConnectDirection.Right)
-                {
-                    StartCoroutine(StartConnection());
-                    inputInUse = true;
-                }
-                else if (vertical > 0.5f && exitDirection == ConnectDirection.Up)
-                {
-                    StartCoroutine(StartConnection());
-                    inputInUse = true;
-                }
-                else if (horizontal < -0.5f && exitDirection == ConnectDirection.Left)
-                {
-                    StartCoroutine(StartConnection());
-                    inputInUse = true;
-                }
+                StartCoroutine(StartConnection());
+                inputInUse = true;
             }
-
-            // Reset inputInUse cuando no se detecta movimiento en el eje
-            if (Mathf.Abs(horizontal) < 0.1f && Mathf.Abs(vertical) < 0.1f)
+            else if (horizontal > 0.5f && exitDirection == ConnectDirection.Right)
             {
-                inputInUse = false;
+                StartCoroutine(StartConnection());
+                inputInUse = true;
+            }
+            else if (vertical > 0.5f && exitDirection == ConnectDirection.Up)
+            {
+                StartCoroutine(StartConnection());
+                inputInUse = true;
+            }
+            else if (horizontal < -0.5f && exitDirection == ConnectDirection.Left)
+            {
+                StartCoroutine(StartConnection());
+                inputInUse = true;
             }
         }
+
+        // Reset inputInUse cuando no hay input
+        if (Mathf.Abs(horizontal) < 0.1f && Mathf.Abs(vertical) < 0.1f)
+        {
+            inputInUse = false;
+        }
+    }
     }
 
     // Inicia la conexión con la etapa correspondiente, moviendo al jugador a la posición de entrada de la nueva etapa y desactivando el movimiento de la cámara.

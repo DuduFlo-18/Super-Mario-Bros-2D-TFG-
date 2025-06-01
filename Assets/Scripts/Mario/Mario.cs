@@ -93,9 +93,21 @@ public class Mario : MonoBehaviour
             // }
 
         //Nueva forma de recibir input, usando el script InputTranslator
-            float verticalInput = Input.GetAxisRaw("Vertical");
+            // float verticalInput = Input.GetAxisRaw("Vertical");
 
-            if (verticalInput < -0.5f && colisiones.isGrounded)
+            // if (verticalInput < -0.5f && colisiones.isGrounded)
+            // {
+            //     isCrouched = true;
+            // }
+
+            // if (InputTranslator.Fire)
+            // {
+            //     Shoot();
+            // }
+
+
+        // Nueva forma de recibir input, usando el script InputTranslator ()
+            if (InputTranslator.Crouch && colisiones.isGrounded)
             {
                 isCrouched = true;
             }
@@ -103,6 +115,7 @@ public class Mario : MonoBehaviour
             if (InputTranslator.Fire)
             {
                 Shoot();
+                InputTranslator.customFire = false;
             }
 
         // Si Mario es invencible (Estrella), se reduce el tiempo de invencibilidad y se detiene la musica cuando el tiempo es menor a 2 segundos.
@@ -181,7 +194,13 @@ public class Mario : MonoBehaviour
         isHurt = false;
         animaciones.Hurt(false);
         colisiones.HurtCollision(false);
-        
+
+        // RESETEAMOS el estado si era Super o Fire
+        if (currentState != State.Default)
+        {
+            currentState = State.Default;
+            animaciones.NewState((int)State.Default);
+        }
     }
 
     // Logica para morir Mario, se detiene la musica, se reproduce el sonido de muerte y se cambia el estado a muerto.
@@ -284,8 +303,18 @@ public class Mario : MonoBehaviour
     // Devuelve el estado actual de Mario.
     public bool IsBig()
     {
-        return currentState != State.Default;
+         return currentState != State.Default;
     }
+
+    public bool IsInFireMode()
+    {
+         return currentState == State.Fire;
+    }
+
+    // public bool IsBig() => currentState != State.Default;
+
+    // public bool IsInFireMode() => currentState == State.Fire;
+
 
     // Logica para cuando Mario toca la bandera al final del nivel, se detiene la musica de la estrella, se reinicia el temporizador de invencibilidad, se reproduce el sonido de la bandera y se baja la bandera.
     public void Goal()

@@ -16,6 +16,7 @@ public class Toad : MonoBehaviour
     public GameObject ToadText2;
     public GameObject ToadText3;
     public GameObject ToadText4;
+    public GameObject ToadText5;
 
     // Al tocar al Toad, se detiene el movimiento del jugador y se muestran los textos de finalización del nivel en orden secuencial.
     private void OnCollisionEnter2D(Collision2D collision)
@@ -45,8 +46,10 @@ public class Toad : MonoBehaviour
         ToadText3.SetActive(true);
         ToadText4.SetActive(true);
 
+        yield return new WaitForSeconds(1f);
+        ToadText5.SetActive(true);
 
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.JoystickButton0));
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.JoystickButton0) || InputTranslator.customHorizontal == -1f);
         ScoreManager.instance.GameOver();
         SceneManager.LoadScene("StartMenu");
         ScoreManager.instance.NewGame();

@@ -284,24 +284,26 @@ public class Move : MonoBehaviour
         }
     }
 
-    // Logica salto segun el estado de Mario
+
+    // Metodo para saltar, se llama desde el Update cuando se pulsa el boton de salto (usa un condicional para evitar que suene varias veces el salto al jugar en Móvil)
     void Jump()
     {
-        //Logica de Sonido
-        if (mario.IsBig())
-        {
-            AudioManager.instance.PlayBigJump();
-        }
-        else
-        {
-            AudioManager.instance.PlayJump();
-        }
         if (!isJumping)
         {
             isJumping = true;
             Vector2 fuerza = new Vector2(0, jumpForce);
             rb2d.AddForce(fuerza, ForceMode2D.Impulse);
             animaciones.Jumping(true);
+
+            // Reproducir sonido SOLO cuando inicia el salto
+            if (mario.IsBig())
+            {
+                AudioManager.instance.PlayBigJump();
+            }
+            else
+            {
+                AudioManager.instance.PlayJump();
+            }
         }
     }
 
