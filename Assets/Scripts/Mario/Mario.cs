@@ -7,7 +7,7 @@ using UnityEngine;
 public class Mario : MonoBehaviour
 {
     //Cada uno representa un estado de Mario, y se empieza como Mario normal (Default).
-    public enum State {Default = 0, Super = 1, Fire = 2}
+    public enum State { Default = 0, Super = 1, Fire = 2 }
     State currentState = State.Default;
 
     // Este será el objeto que contiene la hitbox de pisar
@@ -34,7 +34,7 @@ public class Mario : MonoBehaviour
 
     // Detecta si Mario esta muerto
     public bool isDead;
-    
+
     // Creamos una instancia estática de Mario para que pueda ser accedida desde otros scripts.
     public static Mario instance;
 
@@ -58,10 +58,15 @@ public class Mario : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
+
 
     private void Update()
     {
+        
+        if (Input.GetButtonDown("Fire1") || Input.GetKeyDown(KeyCode.E))
+    {
+        Debug.Log("Se ha pulsado Fire1");
+    }
         isCrouched = false;
         if (!isDead)
         {
@@ -78,7 +83,7 @@ public class Mario : MonoBehaviour
                 }
             }
 
-        // Antigua forma de recibir input, ahora se usa InputTranslator
+            // Antigua forma de recibir input, ahora se usa InputTranslator
             // if (Input.GetKey(KeyCode.DownArrow))
             // {
             //     if (colisiones.isGrounded)
@@ -92,7 +97,7 @@ public class Mario : MonoBehaviour
             //     Shoot();
             // }
 
-        //Nueva forma de recibir input, usando el script InputTranslator
+            //Nueva forma de recibir input, usando el script InputTranslator
             // float verticalInput = Input.GetAxisRaw("Vertical");
 
             // if (verticalInput < -0.5f && colisiones.isGrounded)
@@ -106,7 +111,7 @@ public class Mario : MonoBehaviour
             // }
 
 
-        // Nueva forma de recibir input, usando el script InputTranslator ()
+            // Nueva forma de recibir input, usando el script InputTranslator ()
             if (InputTranslator.Crouch && colisiones.isGrounded)
             {
                 isCrouched = true;
@@ -118,7 +123,7 @@ public class Mario : MonoBehaviour
                 InputTranslator.customFire = false;
             }
 
-        // Si Mario es invencible (Estrella), se reduce el tiempo de invencibilidad y se detiene la musica cuando el tiempo es menor a 2 segundos.
+            // Si Mario es invencible (Estrella), se reduce el tiempo de invencibilidad y se detiene la musica cuando el tiempo es menor a 2 segundos.
             if (isInvincible)
             {
                 invincibleTimer -= Time.deltaTime;
@@ -133,7 +138,7 @@ public class Mario : MonoBehaviour
                 }
             }
 
-        // Si Mario esta herido, se reduce el tiempo de herido y se termina el estado de herido cuando el tiempo es menor o igual a 0.
+            // Si Mario esta herido, se reduce el tiempo de herido y se termina el estado de herido cuando el tiempo es menor o igual a 0.
             if (isHurt)
             {
                 hurtTimer -= Time.deltaTime;
@@ -147,7 +152,7 @@ public class Mario : MonoBehaviour
         animaciones.Crouch(isCrouched);
 
 
-    // CheatCodes para probar el juego y las transformaciones de Mario.
+        // CheatCodes para probar el juego y las transformaciones de Mario.
         if (Input.GetKeyDown(KeyCode.P))
         {
             Time.timeScale = 0;
@@ -182,7 +187,7 @@ public class Mario : MonoBehaviour
     // Logica para entrar en Invulnerable despues de haber recibido daño.
     void StartHurt()
     {
-        isHurt= true;
+        isHurt = true;
         animaciones.Hurt(true);
         hurtTimer = hurtTime;
         colisiones.HurtCollision(true);
@@ -195,8 +200,8 @@ public class Mario : MonoBehaviour
         animaciones.Hurt(false);
         colisiones.HurtCollision(false);
 
-        // RESETEAMOS el estado si era Super o Fire
-        if (currentState != State.Default)
+        // Solo reseteamos el estado si NO está invencible
+        if (!isInvincible && currentState != State.Default)
         {
             currentState = State.Default;
             animaciones.NewState((int)State.Default);
@@ -291,6 +296,7 @@ public class Mario : MonoBehaviour
     // Logica para disparar una bola de fuego, se instancia el prefab de la bola de fuego y se le asigna la direccion. (No se podrá disparar si Mario está agachado)
     void Shoot()
     {
+        Debug.Log("Intentando disparar. Estado actual: " + currentState);
         if (currentState == State.Fire && !isCrouched)
         {
             AudioManager.instance.PlayShoot();
@@ -303,17 +309,13 @@ public class Mario : MonoBehaviour
     // Devuelve el estado actual de Mario.
     public bool IsBig()
     {
-         return currentState != State.Default;
+        return currentState != State.Default;
     }
 
     public bool IsInFireMode()
     {
-         return currentState == State.Fire;
+        return currentState == State.Fire;
     }
-
-    // public bool IsBig() => currentState != State.Default;
-
-    // public bool IsInFireMode() => currentState == State.Fire;
 
 
     // Logica para cuando Mario toca la bandera al final del nivel, se detiene la musica de la estrella, se reinicia el temporizador de invencibilidad, se reproduce el sonido de la bandera y se baja la bandera.
@@ -326,4 +328,18 @@ public class Mario : MonoBehaviour
         //levelFinished = true;
         LevelManager.instance.FinishLevel();
     }
+
+    // Hacemos que el estado de Mario vuelva a ser el estado por defecto (Default), se actualizan las animaciones y se reinician los estados de herido e invulnerable.
+    public void SetSmall()
+    {
+            currentState = State.Default;
+            animaciones.NewState((int)State.Default); // 🔁 Cambia la animación
+            isHurt = false;
+            isInvincible = false;
+
+            // También limpia cualquier animación activa
+            animaciones.Reset();
+    }
+
+
 }

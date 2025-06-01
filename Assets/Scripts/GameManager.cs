@@ -108,11 +108,25 @@ public class GameManager : MonoBehaviour
         isGameOver = false;
         ScoreManager.instance.NewGame();
         checkpoint = false;
+
+        // Reset de Input para evitar movimientos no deseados al iniciar el juego.
+        InputTranslator.customHorizontal = 0f;
+        InputTranslator.customVertical = 0f;
+        InputTranslator.customJump = false;
+        InputTranslator.customFire = false;
+        InputTranslator.customCrouch = false;
+
+        if (Mario.instance != null)
+        {
+            Mario.instance.SetSmall();
+            Mario.instance.GetComponent<Rigidbody2D>().isKinematic = false;
+        }
     }
 
     // Logica para iniciar el juego, reiniciando el nivel y mundo actual, y cargando el primer nivel.
     public void StartGame()
     {
+        NewGame();
         currentLevel = 1;
         currentWorld = 1;
         LoadLevel();
@@ -154,7 +168,10 @@ public class GameManager : MonoBehaviour
         if (isGameOver)
         {
             AudioManager.instance.PlayGameover();
-            yield return new WaitForSeconds(5f);
+
+            
+        
+                yield return new WaitForSeconds(5f);
             SceneManager.LoadScene("StartMenu");
         }
         else

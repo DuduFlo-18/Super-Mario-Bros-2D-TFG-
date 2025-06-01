@@ -48,11 +48,11 @@ public static class InputTranslator
     }
 
     public static bool Crouch
-{
-    get
     {
-        return Input.GetAxisRaw("Vertical") < -0.5f || customCrouch;
+        get
+        {
+            return Input.GetAxisRaw("Vertical") < -0.5f || customCrouch;
+        }
     }
-}
 }
 

@@ -481,7 +481,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -7.223, y: -26.213}
+  m_AnchoredPosition: {x: -7.223, y: -22.2}
   m_SizeDelta: {x: 152.022, y: 4.349}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &267651690
@@ -531,8 +531,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 3
-  m_fontSizeBase: 3
+  m_fontSize: 4
+  m_fontSizeBase: 4
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -567,7 +567,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 8.846836, y: 9.325555, z: -0.3523941, w: 4.1453285}
+  m_margin: {x: 8.846836, y: 9.325555, z: -30.473412, w: 4.1453285}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1149,42 +1149,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1754742064}
     m_Modifications:
-    - target: {fileID: 2145987748, guid: e2de8056b79316642a9c3af59ad5a2e2, type: 3}
-      propertyPath: sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: -1837185973, guid: fb67b8f6d81f6ad46a5e5a0104261c55, type: 3}
-    - target: {fileID: 2145987748, guid: e2de8056b79316642a9c3af59ad5a2e2, type: 3}
-      propertyPath: sprites.Array.data[1]
-      value: 
-      objectReference: {fileID: 1560887952, guid: fb67b8f6d81f6ad46a5e5a0104261c55, type: 3}
-    - target: {fileID: 2145987748, guid: e2de8056b79316642a9c3af59ad5a2e2, type: 3}
-      propertyPath: sprites.Array.data[2]
-      value: 
-      objectReference: {fileID: -1654907177, guid: fb67b8f6d81f6ad46a5e5a0104261c55, type: 3}
-    - target: {fileID: 2145987748, guid: e2de8056b79316642a9c3af59ad5a2e2, type: 3}
-      propertyPath: sprites.Array.data[3]
-      value: 
-      objectReference: {fileID: 1560887952, guid: fb67b8f6d81f6ad46a5e5a0104261c55, type: 3}
-    - target: {fileID: 2145987748, guid: e2de8056b79316642a9c3af59ad5a2e2, type: 3}
-      propertyPath: sprites.Array.data[4]
-      value: 
-      objectReference: {fileID: -1837185973, guid: fb67b8f6d81f6ad46a5e5a0104261c55, type: 3}
     - target: {fileID: 1229100359646751785, guid: e2de8056b79316642a9c3af59ad5a2e2, type: 3}
       propertyPath: m_Name
       value: QuestionBlock_Castle
       objectReference: {fileID: 0}
-    - target: {fileID: 4985739964410212523, guid: e2de8056b79316642a9c3af59ad5a2e2, type: 3}
-      propertyPath: numCoins
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4985739964410212523, guid: e2de8056b79316642a9c3af59ad5a2e2, type: 3}
-      propertyPath: emptyBlock
-      value: 
-      objectReference: {fileID: 21300000, guid: a73114ad88e4e9a4592b64f87b69f020, type: 3}
-    - target: {fileID: 4985739964410212523, guid: e2de8056b79316642a9c3af59ad5a2e2, type: 3}
-      propertyPath: itemFlowerPrefab
-      value: 
-      objectReference: {fileID: 3075068916580081476, guid: 063694cf4983a784183738b0d97dd329, type: 3}
     - target: {fileID: 5970209320455551985, guid: e2de8056b79316642a9c3af59ad5a2e2, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1229,10 +1197,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7159890123740593927, guid: e2de8056b79316642a9c3af59ad5a2e2, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -1837185973, guid: fb67b8f6d81f6ad46a5e5a0104261c55, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2de8056b79316642a9c3af59ad5a2e2, type: 3}
 --- !u!1001 &585095668
@@ -1967,7 +1931,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.744, y: -43.448}
+  m_AnchoredPosition: {x: -2.744, y: -39.435005}
   m_SizeDelta: {x: 160.98, y: 10.819}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &856760571
@@ -2017,8 +1981,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 3
-  m_fontSizeBase: 3
+  m_fontSize: 4
+  m_fontSizeBase: 4
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2053,7 +2017,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 8.846836, y: 37.04213, z: 6.3660965, w: 38.835308}
+  m_margin: {x: 8.846836, y: 37.04213, z: -21.145996, w: 38.835308}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

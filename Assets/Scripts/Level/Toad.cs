@@ -50,8 +50,14 @@ public class Toad : MonoBehaviour
         ToadText5.SetActive(true);
 
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.JoystickButton0) || InputTranslator.customHorizontal == -1f);
+         if (Mario.instance != null)
+        {
+            Mario.instance.SetSmall(); // 🔁 Aseguramos que Mario sea pequeño ANTES de volver al menú
+        }
         ScoreManager.instance.GameOver();
         SceneManager.LoadScene("StartMenu");
         ScoreManager.instance.NewGame();
+
+       
     }
 }
