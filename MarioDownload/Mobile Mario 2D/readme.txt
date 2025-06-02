@@ -1,0 +1,1 @@
+El Menú es tactil pero el Gameplay es por bótones.

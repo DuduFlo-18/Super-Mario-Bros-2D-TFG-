@@ -73,3 +73,7 @@ crashlytics-build.properties
 
 # Uncomment this line if you wish to ignore the Unity Cloud Build directory
 !MarioDownload/
+
+# EXCEPCIÓN PARA LA CARPETA DEL APK DE MÓVIL
+!Mobile Mario 2D/
+!Mobile Mario 2D/**/*
