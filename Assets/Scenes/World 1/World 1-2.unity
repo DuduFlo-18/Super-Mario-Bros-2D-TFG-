@@ -16732,7 +16732,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 650d6737fc6e8dd449aa78229dde46bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 150
+  time: 200
   timer: 0
   spawnPoint: {fileID: 4220688234293511072}
   checkPoint: {fileID: 4220688234909713207}

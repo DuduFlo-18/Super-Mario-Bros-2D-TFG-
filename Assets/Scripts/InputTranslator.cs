@@ -38,7 +38,7 @@ public static class InputTranslator
         }
     }
 
-    // Disparo (tecla, botón de mando o botón táctil)
+    // Disparo (tecla, botón de mando) ADVERTENCIA: Habilita que al clickar la pantalla también se dispare
     public static bool Fire
     {
         get
@@ -46,6 +46,22 @@ public static class InputTranslator
             return Input.GetKeyDown(KeyCode.E) || Input.GetButtonDown("Fire1") || customFire;
         }
     }
+
+     
+// Metodo que uso en la versión móvil para el correcto funcionamiento de los botones táctiles
+    // public static bool Fire
+    // {
+    //     get
+    //     {
+    //         #if UNITY_ANDROID || UNITY_IOS
+    //             bool result = customFire;
+    //             customFire = false; 
+    //             return result;
+    //         #else
+    //             return Input.GetKeyDown(KeyCode.E) || Input.GetButtonDown("Fire1") || customFire;
+    //         #endif
+    //     }
+    // }
 
     public static bool Crouch
     {

@@ -3936,7 +3936,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9117787003919436791, guid: 5f0758977ad0c444d81d617ae205b544, type: 3}
       propertyPath: time
-      value: 120
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 9117787003919436791, guid: 5f0758977ad0c444d81d617ae205b544, type: 3}
       propertyPath: backGroundMusic

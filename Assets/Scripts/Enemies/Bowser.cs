@@ -55,6 +55,9 @@ public class Bowser : Enemy
 
     protected override void Update()
     {
+        //En caso que Bowser esté muerto, no se ejecuta la lógica de movimiento ni disparo.
+        if (isBowserDead) return;
+
         //Si el puente no se ha colapsado, Bowser se mueve y dispara (cuando cumple cierta distancia de Mario).
         if (!collapseBridge)
         {
@@ -88,7 +91,7 @@ public class Bowser : Enemy
             {
                 canShot = true;
             }
-            
+
             // Si Bowser puede disparar, se reduce el temporizador de disparo y se dispara cuando llega a 0.
             if (canShot)
             {
@@ -100,8 +103,6 @@ public class Bowser : Enemy
             }
         }
     }
-
-
 
     void Jump()
     {
@@ -139,6 +140,7 @@ public class Bowser : Enemy
         if (BowserHealth <= 0)
         {
             AudioManager.instance.PlayBowserFall();
+            canShot = false;
             FlipDie();
             isBowserDead = true;
         }
